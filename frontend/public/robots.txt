@@ -1,6 +1,6 @@
 # =====================================================
 # SentinelNexus - AI Security & Compliance Platform
-# https://sentinelnexus.ai
+# https://sentinelnexus.mayankiitj.in
 # 
 # The #1 Enterprise AI Security Intelligence Platform
 # Real-time threat detection, compliance automation,
@@ -35,7 +35,7 @@ Disallow: /_next/
 Disallow: /private/
 
 # Primary Sitemap
-Sitemap: https://sentinelnexus.ai/sitemap.xml
+Sitemap: https://sentinelnexus.mayankiitj.in/sitemap.xml
 
 # ===================
 # GOOGLEBOT - Priority

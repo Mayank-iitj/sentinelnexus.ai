@@ -10,12 +10,12 @@
   
   <!-- Homepage - Primary Landing -->
   <url>
-    <loc>https://sentinelnexus.ai/</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://sentinelnexus.ai/sentinelnexus-og.png</image:loc>
+      <image:loc>https://sentinelnexus.mayankiitj.in/sentinelnexus-og.png</image:loc>
       <image:title>SentinelNexus - AI Security Intelligence Platform</image:title>
       <image:caption>Enterprise AI security and compliance platform with real-time threat detection</image:caption>
     </image:image>
@@ -23,7 +23,7 @@
 
   <!-- Features Section -->
   <url>
-    <loc>https://sentinelnexus.ai/features</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/features</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
@@ -31,7 +31,7 @@
 
   <!-- AI Code Scanner -->
   <url>
-    <loc>https://sentinelnexus.ai/features/code-scanner</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/features/code-scanner</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -39,7 +39,7 @@
 
   <!-- Prompt Injection Defense -->
   <url>
-    <loc>https://sentinelnexus.ai/features/prompt-scanner</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/features/prompt-scanner</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -47,7 +47,7 @@
 
   <!-- PII Detection -->
   <url>
-    <loc>https://sentinelnexus.ai/features/pii-scanner</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/features/pii-scanner</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -55,7 +55,7 @@
 
   <!-- Compliance Engine -->
   <url>
-    <loc>https://sentinelnexus.ai/features/compliance</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/features/compliance</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -63,7 +63,7 @@
 
   <!-- Pricing -->
   <url>
-    <loc>https://sentinelnexus.ai/pricing</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/pricing</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -71,7 +71,7 @@
 
   <!-- Documentation -->
   <url>
-    <loc>https://sentinelnexus.ai/docs</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/docs</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -79,7 +79,7 @@
 
   <!-- API Reference -->
   <url>
-    <loc>https://sentinelnexus.ai/docs/api</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/docs/api</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -87,7 +87,7 @@
 
   <!-- Blog / Resources -->
   <url>
-    <loc>https://sentinelnexus.ai/blog</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/blog</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -95,7 +95,7 @@
 
   <!-- About SentinelNexus -->
   <url>
-    <loc>https://sentinelnexus.ai/about</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/about</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -103,7 +103,7 @@
 
   <!-- Contact -->
   <url>
-    <loc>https://sentinelnexus.ai/contact</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/contact</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
@@ -111,7 +111,7 @@
 
   <!-- Security / Trust -->
   <url>
-    <loc>https://sentinelnexus.ai/security</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/security</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -119,7 +119,7 @@
 
   <!-- Case Studies -->
   <url>
-    <loc>https://sentinelnexus.ai/case-studies</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/case-studies</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
@@ -127,14 +127,14 @@
 
   <!-- Auth Pages -->
   <url>
-    <loc>https://sentinelnexus.ai/auth/login</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/auth/login</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://sentinelnexus.ai/auth/register</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/auth/register</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -142,14 +142,14 @@
 
   <!-- Legal -->
   <url>
-    <loc>https://sentinelnexus.ai/privacy</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/privacy</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://sentinelnexus.ai/terms</loc>
+    <loc>https://sentinelnexus.mayankiitj.in/terms</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 
   // Author and Creator
   authors: [
-    { name: 'SentinelNexus', url: 'https://sentinelnexus.ai' },
+    { name: 'SentinelNexus', url: 'https://sentinelnexus.mayankiitj.in' },
     { name: 'Mayank', url: 'https://linkedin.com/in/mayankiitj' }
   ],
   creator: 'SentinelNexus Team',
@@ -66,12 +66,12 @@ export const metadata: Metadata = {
   },
 
   // Canonical & Alternate
-  metadataBase: new URL('https://sentinelnexus.ai'),
+  metadataBase: new URL('https://sentinelnexus.mayankiitj.in'),
   alternates: {
-    canonical: 'https://sentinelnexus.ai',
+    canonical: 'https://sentinelnexus.mayankiitj.in',
     languages: {
-      'en-US': 'https://sentinelnexus.ai',
-      'en-GB': 'https://sentinelnexus.ai',
+      'en-US': 'https://sentinelnexus.mayankiitj.in',
+      'en-GB': 'https://sentinelnexus.mayankiitj.in',
     },
   },
 
@@ -79,20 +79,20 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://sentinelnexus.ai',
+    url: 'https://sentinelnexus.mayankiitj.in',
     siteName: 'SentinelNexus',
     title: 'SentinelNexus - #1 AI Security & Compliance Intelligence Platform',
     description: 'Enterprise-grade AI security platform with real-time vulnerability scanning, prompt injection defense, PII protection, and automated compliance. Trusted by Fortune 500 companies.',
     images: [
       {
-        url: 'https://sentinelnexus.ai/sentinelnexus-og.png',
+        url: 'https://sentinelnexus.mayankiitj.in/sentinelnexus-og.png',
         width: 1200,
         height: 630,
         alt: 'SentinelNexus - AI Security Intelligence Platform',
         type: 'image/png',
       },
       {
-        url: 'https://sentinelnexus.ai/sentinelnexus-og-square.png',
+        url: 'https://sentinelnexus.mayankiitj.in/sentinelnexus-og-square.png',
         width: 600,
         height: 600,
         alt: 'SentinelNexus Logo',
@@ -108,7 +108,7 @@ export const metadata: Metadata = {
     creator: '@mayankiitj',
     title: 'SentinelNexus - #1 AI Security Platform',
     description: 'Enterprise AI security with real-time threat detection, compliance automation, and prompt injection defense. Start free today.',
-    images: ['https://sentinelnexus.ai/sentinelnexus-twitter.png'],
+    images: ['https://sentinelnexus.mayankiitj.in/sentinelnexus-twitter.png'],
   },
 
   // App-specific metadata
@@ -179,13 +179,13 @@ const jsonLd = {
     // Organization
     {
       '@type': 'Organization',
-      '@id': 'https://sentinelnexus.ai/#organization',
+      '@id': 'https://sentinelnexus.mayankiitj.in/#organization',
       name: 'SentinelNexus',
       alternateName: ['SentinelNexus AI', 'SentinelNexus Guard', 'Sentinel Nexus'],
-      url: 'https://sentinelnexus.ai',
+      url: 'https://sentinelnexus.mayankiitj.in',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://sentinelnexus.ai/logo.png',
+        url: 'https://sentinelnexus.mayankiitj.in/logo.png',
         width: 512,
         height: 512,
       },
@@ -194,7 +194,7 @@ const jsonLd = {
       sameAs: [
         'https://linkedin.com/company/sentinelnexus',
         'https://twitter.com/sentinelnexus',
-        'https://github.com/Mayank-iitj/sentinelnexus.ai',
+        'https://github.com/Mayank-iitj/sentinelnexus.mayankiitj.in',
         'https://linkedin.com/in/mayankiitj',
       ],
       contactPoint: [
@@ -215,18 +215,18 @@ const jsonLd = {
     // WebSite with SearchAction
     {
       '@type': 'WebSite',
-      '@id': 'https://sentinelnexus.ai/#website',
-      url: 'https://sentinelnexus.ai',
+      '@id': 'https://sentinelnexus.mayankiitj.in/#website',
+      url: 'https://sentinelnexus.mayankiitj.in',
       name: 'SentinelNexus',
       description: 'SentinelNexus - #1 AI Security & Compliance Intelligence Platform',
       publisher: {
-        '@id': 'https://sentinelnexus.ai/#organization',
+        '@id': 'https://sentinelnexus.mayankiitj.in/#organization',
       },
       potentialAction: {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: 'https://sentinelnexus.ai/search?q={search_term_string}',
+          urlTemplate: 'https://sentinelnexus.mayankiitj.in/search?q={search_term_string}',
         },
         'query-input': 'required name=search_term_string',
       },
@@ -235,11 +235,11 @@ const jsonLd = {
     // SoftwareApplication
     {
       '@type': 'SoftwareApplication',
-      '@id': 'https://sentinelnexus.ai/#software',
+      '@id': 'https://sentinelnexus.mayankiitj.in/#software',
       name: 'SentinelNexus',
       alternateName: 'SentinelNexus AI Security Platform',
       description: 'Enterprise AI security platform with real-time vulnerability scanning, prompt injection defense, PII detection, and compliance automation for GDPR, SOC 2, and EU AI Act.',
-      url: 'https://sentinelnexus.ai',
+      url: 'https://sentinelnexus.mayankiitj.in',
       applicationCategory: 'SecurityApplication',
       applicationSubCategory: 'AI Security Software',
       operatingSystem: 'Web-based, Cloud',
@@ -278,7 +278,7 @@ const jsonLd = {
         'API Security Analysis',
         'Dashboard Analytics',
       ],
-      screenshot: 'https://sentinelnexus.ai/screenshots/dashboard.png',
+      screenshot: 'https://sentinelnexus.mayankiitj.in/screenshots/dashboard.png',
       softwareVersion: '2.0',
       aggregateRating: {
         '@type': 'AggregateRating',
@@ -288,25 +288,25 @@ const jsonLd = {
         worstRating: '1',
       },
       author: {
-        '@id': 'https://sentinelnexus.ai/#organization',
+        '@id': 'https://sentinelnexus.mayankiitj.in/#organization',
       },
     },
     // WebPage
     {
       '@type': 'WebPage',
-      '@id': 'https://sentinelnexus.ai/#webpage',
-      url: 'https://sentinelnexus.ai',
+      '@id': 'https://sentinelnexus.mayankiitj.in/#webpage',
+      url: 'https://sentinelnexus.mayankiitj.in',
       name: 'SentinelNexus - #1 AI Security & Compliance Intelligence Platform',
       description: 'Enterprise-grade AI security platform with real-time vulnerability scanning, prompt injection defense, and compliance automation.',
       isPartOf: {
-        '@id': 'https://sentinelnexus.ai/#website',
+        '@id': 'https://sentinelnexus.mayankiitj.in/#website',
       },
       about: {
-        '@id': 'https://sentinelnexus.ai/#software',
+        '@id': 'https://sentinelnexus.mayankiitj.in/#software',
       },
       primaryImageOfPage: {
         '@type': 'ImageObject',
-        url: 'https://sentinelnexus.ai/sentinelnexus-og.png',
+        url: 'https://sentinelnexus.mayankiitj.in/sentinelnexus-og.png',
       },
       datePublished: '2024-01-01',
       dateModified: '2026-02-19',
@@ -315,7 +315,7 @@ const jsonLd = {
     // FAQPage for rich snippets
     {
       '@type': 'FAQPage',
-      '@id': 'https://sentinelnexus.ai/#faq',
+      '@id': 'https://sentinelnexus.mayankiitj.in/#faq',
       mainEntity: [
         {
           '@type': 'Question',
@@ -354,13 +354,13 @@ const jsonLd = {
     // BreadcrumbList
     {
       '@type': 'BreadcrumbList',
-      '@id': 'https://sentinelnexus.ai/#breadcrumb',
+      '@id': 'https://sentinelnexus.mayankiitj.in/#breadcrumb',
       itemListElement: [
         {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://sentinelnexus.ai',
+          item: 'https://sentinelnexus.mayankiitj.in',
         },
       ],
     },
@@ -386,7 +386,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
         {/* DNS Prefetch */}
-        <link rel="dns-prefetch" href="https://sentinelnexus.ai" />
+        <link rel="dns-prefetch" href="https://sentinelnexus.mayankiitj.in" />
         
         {/* Additional SEO signals */}
         <meta name="geo.region" content="US" />
@@ -401,8 +401,8 @@ export default function RootLayout({
         <meta name="MobileOptimized" content="320" />
         <meta name="subject" content="AI Security Platform" />
         <meta name="copyright" content="SentinelNexus" />
-        <meta name="url" content="https://sentinelnexus.ai" />
-        <meta name="identifier-URL" content="https://sentinelnexus.ai" />
+        <meta name="url" content="https://sentinelnexus.mayankiitj.in" />
+        <meta name="identifier-URL" content="https://sentinelnexus.mayankiitj.in" />
         <meta name="pagename" content="SentinelNexus - AI Security Platform" />
         <meta name="topic" content="AI Security, Compliance, Prompt Injection Defense" />
         <meta name="summary" content="SentinelNexus is the #1 enterprise AI security platform for threat detection, compliance, and protection." />
