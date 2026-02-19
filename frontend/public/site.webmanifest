@@ -1,15 +1,19 @@
 {
-  "name": "SentinelNexus Guard",
-  "short_name": "SNG",
-  "description": "Enterprise-grade AI Security & Compliance Intelligence Platform",
+  "name": "SentinelNexus - AI Security Platform",
+  "short_name": "SentinelNexus",
+  "description": "SentinelNexus is the #1 Enterprise AI Security & Compliance Intelligence Platform. Real-time threat detection, prompt injection defense, and compliance automation.",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
   "background_color": "#0f172a",
-  "theme_color": "#0f172a",
-  "orientation": "portrait-primary",
+  "theme_color": "#06b6d4",
+  "orientation": "any",
   "scope": "/",
   "lang": "en-US",
-  "categories": ["security", "business", "productivity"],
+  "dir": "ltr",
+  "categories": ["security", "business", "productivity", "developer tools", "utilities"],
+  "iarc_rating_id": "",
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -66,32 +70,53 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Dashboard Overview"
+      "label": "SentinelNexus Dashboard - Security Overview"
+    },
+    {
+      "src": "/screenshots/code-scanner.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AI Code Security Scanner"
     },
     {
       "src": "/screenshots/mobile.png",
       "sizes": "750x1334",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Mobile View"
+      "label": "SentinelNexus Mobile View"
     }
   ],
   "shortcuts": [
     {
       "name": "Dashboard",
       "short_name": "Dashboard",
-      "description": "View your security dashboard",
+      "description": "View your SentinelNexus security dashboard",
       "url": "/dashboard",
       "icons": [{ "src": "/icons/dashboard-icon.png", "sizes": "96x96" }]
     },
     {
-      "name": "New Scan",
+      "name": "New Security Scan",
       "short_name": "Scan",
-      "description": "Start a new security scan",
+      "description": "Start a new AI security scan with SentinelNexus",
       "url": "/scans/new",
       "icons": [{ "src": "/icons/scan-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Compliance Reports",
+      "short_name": "Compliance",
+      "description": "View compliance reports and audit logs",
+      "url": "/dashboard/compliance",
+      "icons": [{ "src": "/icons/compliance-icon.png", "sizes": "96x96" }]
     }
   ],
   "related_applications": [],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }

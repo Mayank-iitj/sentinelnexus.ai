@@ -1,22 +1,119 @@
-# SentinelNexus Guard - Robots.txt
-# https://sentinelnexusguard.com
+# =====================================================
+# SentinelNexus - AI Security & Compliance Platform
+# https://sentinelnexus.ai
+# 
+# The #1 Enterprise AI Security Intelligence Platform
+# Real-time threat detection, compliance automation,
+# prompt injection defense, and PII protection.
+# =====================================================
 
+# Allow all search engines to crawl public pages
 User-agent: *
 Allow: /
+Allow: /features
+Allow: /features/
+Allow: /pricing
+Allow: /docs
+Allow: /docs/
+Allow: /blog
+Allow: /blog/
+Allow: /about
+Allow: /contact
+Allow: /security
+Allow: /case-studies
+Allow: /auth/login
+Allow: /auth/register
+
+# Protect private user areas
 Disallow: /api/
 Disallow: /dashboard/
-Disallow: /auth/
-Disallow: /_next/
+Disallow: /dashboard/*
+Disallow: /scans/
+Disallow: /settings/
 Disallow: /admin/
+Disallow: /_next/
+Disallow: /private/
 
-# Sitemaps
-Sitemap: https://sentinelnexusguard.com/sitemap.xml
+# Primary Sitemap
+Sitemap: https://sentinelnexus.ai/sitemap.xml
 
-# Crawl-delay for politeness
+# ===================
+# GOOGLEBOT - Priority
+# ===================
+User-agent: Googlebot
+Allow: /
+Allow: /_next/static/
+Allow: /_next/image
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /_next/static/
+Allow: /_next/image
+
+User-agent: Googlebot-News
+Allow: /blog/
+Allow: /
+
+# ===================
+# BINGBOT
+# ===================
+User-agent: Bingbot
+Allow: /
 Crawl-delay: 1
 
-# Block bad bots
+User-agent: msnbot
+Allow: /
+Crawl-delay: 1
+
+# ===================
+# OTHER SEARCH ENGINES
+# ===================
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+# ===================
+# SOCIAL MEDIA BOTS
+# ===================
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Pinterest
+Allow: /
+
+# ===================
+# SEO TOOLS - Allow for monitoring
+# ===================
+User-agent: Screaming Frog SEO Spider
+Allow: /
+Crawl-delay: 2
+
+# ===================
+# BLOCK AGGRESSIVE/BAD BOTS
+# ===================
 User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
 Disallow: /
 
 User-agent: MJ12bot
@@ -25,9 +122,42 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-# Allow search engines full access to assets
-User-agent: Googlebot
-Allow: /_next/static/
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+# Block scrapers and bad actors
+User-agent: rogerbot
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: zoominfobot
+Disallow: /
+
+User-agent: ia_archiver
+Disallow: /
 
 User-agent: Bingbot
 Allow: /_next/static/
