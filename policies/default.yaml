@@ -1,0 +1,102 @@
+default:
+  name: "Default Policy"
+  description: "AI Shield default compliance policy"
+  
+  rules:
+    - name: "no_hardcoded_secrets"
+      description: "Detect hardcoded secrets and API keys"
+      enabled: true
+      severity: "critical"
+      patterns:
+        - "api_key"
+        - "secret_key"
+        - "password"
+        - "api_secret"
+    
+    - name: "no_pii_in_code"
+      description: "Prevent PII data in source code"
+      enabled: true
+      severity: "high"
+      patterns:
+        - "email"
+        - "phone"
+        - "credit_card"
+        - "ssn"
+        - "aadhaar"
+    
+    - name: "secure_logging"
+      description: "Ensure logging does not expose sensitive data"
+      enabled: true
+      severity: "high"
+    
+    - name: "data_encryption"
+      description: "Ensure sensitive data is encrypted"
+      enabled: true
+      severity: "high"
+
+  compliance_frameworks:
+    - "GDPR"
+    - "AI_ACT"
+    - "SOC2"
+    - "ISO27001"
+
+gdpr_strict:
+  name: "GDPR Strict Compliance"
+  description: "Strict GDPR compliance policy for EU operations"
+  
+  rules:
+    - name: "no_pii_collection"
+      description: "Minimal PII collection"
+      enabled: true
+      severity: "critical"
+    
+    - name: "data_residency_eu"
+      description: "Data must stay within EU"
+      enabled: true
+      severity: "critical"
+      allowed_regions:
+        - "eu-west-1"
+        - "eu-central-1"
+        - "eu-north-1"
+    
+    - name: "encryption_mandatory"
+      description: "All data must be encrypted"
+      enabled: true
+      severity: "critical"
+    
+    - name: "audit_logging"
+      description: "Comprehensive audit logs"
+      enabled: true
+      severity: "high"
+
+  compliance_frameworks:
+    - "GDPR"
+
+ai_transparency:
+  name: "AI Transparency & Ethics"
+  description: "Policy for transparent and ethical AI systems"
+  
+  rules:
+    - name: "no_prompt_injection"
+      description: "Prevent prompt injection attacks"
+      enabled: true
+      severity: "critical"
+    
+    - name: "no_jailbreak"
+      description: "Prevent jailbreak attempts"
+      enabled: true
+      severity: "high"
+    
+    - name: "bias_detection"
+      description: "Monitor for algorithmic bias"
+      enabled: true
+      severity: "medium"
+    
+    - name: "hallucination_monitoring"
+      description: "Monitor for model hallucinations"
+      enabled: true
+      severity: "medium"
+
+  compliance_frameworks:
+    - "AI_ACT"
+    - "ETHICAL_AI"

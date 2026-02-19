@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+
+# Development
+*.log
+.env.local
+.env.development
+.env.development.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+coverage/
+.nyc_output/
+
+# Docker (not needed for Vercel)
+Dockerfile
+docker-compose*.yml
+
+# Misc
+.DS_Store
+Thumbs.db

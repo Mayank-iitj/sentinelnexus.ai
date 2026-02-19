@@ -1,0 +1,39 @@
+# Comprehensive Git configuration
+
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+
+[user]
+	name = AI Shield Team
+	email = team@aishield.io
+
+[pull]
+	rebase = true
+
+[commit]
+	gpgsign = false
+
+[push]
+	default = simple
+
+[init]
+	defaultBranch = main
+
+[branch]
+	autosetuprebase = always
+
+[fetch]
+	prune = true
+
+[diff]
+	colorMoved = zebra
+
+[feature]
+	experimental = true
+
+[status]
+	showUntrackedFiles = all
