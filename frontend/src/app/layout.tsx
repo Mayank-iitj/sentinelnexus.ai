@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
+import { Providers } from '@/components/Providers'
 
 export const metadata: Metadata = {
   title: 'SentinelNexus Guard - AI Security & Compliance Intelligence Platform',
@@ -30,17 +31,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="bg-slate-950 text-white antialiased">
-        {children}
-        <Toaster 
-          position="top-right" 
-          toastOptions={{
-            style: {
-              background: '#1e293b',
-              color: '#fff',
-              border: '1px solid #334155',
-            },
-          }}
-        />
+        <Providers>
+          {children}
+          <Toaster 
+            position="top-right" 
+            toastOptions={{
+              style: {
+                background: '#1e293b',
+                color: '#fff',
+                border: '1px solid #334155',
+              },
+            }}
+          />
+        </Providers>
       </body>
     </html>
   )
