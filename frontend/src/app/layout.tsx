@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: '%s | SentinelNexus - AI Security Platform'
   },
   description: 'SentinelNexus is the leading enterprise AI security platform. Detect vulnerabilities, prevent prompt injections, ensure GDPR/SOC 2/EU AI Act compliance, and protect PII in real-time. Trusted by 500+ enterprises worldwide.',
-  
+
   // Keyword optimization for "sentinelnexus" ranking
   keywords: [
     'SentinelNexus',
@@ -200,13 +200,13 @@ const jsonLd = {
       contactPoint: [
         {
           '@type': 'ContactPoint',
-          email: 'admin@mayyanks.app',
+          email: 'admin.sentinelnexus@mayankiitj.in',
           contactType: 'customer service',
           availableLanguage: ['English'],
         },
         {
           '@type': 'ContactPoint',
-          email: 'admin@mayankiitj.in',
+          email: 'admin.sentinelnexus@mayankiitj.in',
           contactType: 'technical support',
           availableLanguage: ['English'],
         },
@@ -380,14 +380,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        
+
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+
         {/* DNS Prefetch */}
         <link rel="dns-prefetch" href="https://sentinelnexus.mayankiitj.in" />
-        
+
         {/* Additional SEO signals */}
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
@@ -410,20 +410,20 @@ export default function RootLayout({
         <meta name="Classification" content="Business/Technology" />
         <meta name="designer" content="SentinelNexus Team" />
         <meta name="owner" content="SentinelNexus" />
-        <meta name="reply-to" content="admin@mayyanks.app" />
+        <meta name="reply-to" content="admin.sentinelnexus@mayankiitj.in" />
         <meta name="directory" content="submission" />
-        
+
         {/* Bing specific */}
         <meta name="msvalidate.01" content="your-bing-verification-code" />
-        
+
         {/* Pinterest */}
         <meta name="p:domain_verify" content="your-pinterest-verification" />
       </head>
       <body className="bg-slate-950 text-white antialiased">
         <Providers>
           {children}
-          <Toaster 
-            position="top-right" 
+          <Toaster
+            position="top-right"
             toastOptions={{
               style: {
                 background: '#1e293b',

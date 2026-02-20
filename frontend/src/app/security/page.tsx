@@ -82,7 +82,7 @@ export default function SecurityCenter() {
                     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
                         <h4 className="font-semibold text-white mb-2">How to Report</h4>
                         <p className="text-slate-400 text-sm mb-4">
-                            Please email your findings to <span className="text-white font-mono bg-slate-800 px-2 py-0.5 rounded">security@sentinelnexus.ai</span>. Include a proof of concept and detailed steps to reproduce.
+                            Please email your findings to <span className="text-white font-mono bg-slate-800 px-2 py-0.5 rounded">admin.sentinelnexus@mayankiitj.in</span>. Include a proof of concept and detailed steps to reproduce.
                         </p>
                         <p className="text-slate-500 text-xs">
                             * We do not offer bug bounties at this time, but we will gladly acknowledge your contribution in our Hall of Fame.

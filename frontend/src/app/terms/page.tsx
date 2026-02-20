@@ -88,8 +88,8 @@ export default function TermsOfService() {
                         <p>
                             For any questions regarding these Terms, please contact us at:
                         </p>
-                        <a href="mailto:legal@sentinelnexus.ai" className="text-blue-400 hover:text-blue-300 transition-colors mt-2 inline-block">
-                            legal@sentinelnexus.ai
+                        <a href="mailto:admin.sentinelnexus@mayankiitj.in" className="text-blue-400 hover:text-blue-300 transition-colors mt-2 inline-block">
+                            admin.sentinelnexus@mayankiitj.in
                         </a>
                     </section>
                 </div>

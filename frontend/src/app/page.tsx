@@ -505,7 +505,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               {/* Email Cards */}
               <a
-                href="mailto:admin@mayyanks.app"
+                href="mailto:admin.sentinelnexus@mayankiitj.in"
                 className="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay" />
@@ -517,14 +517,14 @@ export default function HomePage() {
                     </svg>
                   </div>
                   <div>
-                    <div className="text-white font-semibold group-hover:text-blue-400 transition-colors">admin@mayyanks.app</div>
+                    <div className="text-white font-semibold group-hover:text-blue-400 transition-colors">admin.sentinelnexus@mayankiitj.in</div>
                     <div className="text-slate-400 text-sm">Primary Email</div>
                   </div>
                 </div>
               </a>
 
               <a
-                href="mailto:admin@mayankiitj.in"
+                href="mailto:admin.sentinelnexus@mayankiitj.in"
                 className="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/10 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay" />
@@ -536,7 +536,7 @@ export default function HomePage() {
                     </svg>
                   </div>
                   <div>
-                    <div className="text-white font-semibold group-hover:text-purple-400 transition-colors">admin@mayankiitj.in</div>
+                    <div className="text-white font-semibold group-hover:text-purple-400 transition-colors">admin.sentinelnexus@mayankiitj.in</div>
                     <div className="text-slate-400 text-sm">Secondary Email</div>
                   </div>
                 </div>
@@ -670,70 +670,72 @@ export default function HomePage() {
             </div>
           </div>
         </footer>
-      </div>
+      </div >
 
       {/* ── VIDEO DEMO MODAL ── */}
-      {showDemo && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center"
-          onClick={closeDemo}
-        >
-          {/* Dark backdrop with blur */}
-          <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md" />
-
-          {/* Glow orbs behind player */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none" />
-
-          {/* Player card */}
+      {
+        showDemo && (
           <div
-            className="relative z-10 w-full max-w-5xl mx-4 rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/60"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-[100] flex items-center justify-center"
+            onClick={closeDemo}
           >
-            {/* Title bar */}
-            <div className="flex items-center justify-between px-5 py-3 bg-slate-900/90 backdrop-blur-sm border-b border-slate-700/50">
-              <div className="flex items-center gap-3">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
+            {/* Dark backdrop with blur */}
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md" />
+
+            {/* Glow orbs behind player */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none" />
+
+            {/* Player card */}
+            <div
+              className="relative z-10 w-full max-w-5xl mx-4 rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/60"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Title bar */}
+              <div className="flex items-center justify-between px-5 py-3 bg-slate-900/90 backdrop-blur-sm border-b border-slate-700/50">
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                    <div className="w-3 h-3 rounded-full bg-green-500" />
+                  </div>
+                  <span className="text-slate-400 text-sm font-medium tracking-wide">
+                    SentinelNexus Guard — Live Demo
+                  </span>
                 </div>
-                <span className="text-slate-400 text-sm font-medium tracking-wide">
-                  SentinelNexus Guard — Live Demo
-                </span>
+                <button
+                  onClick={closeDemo}
+                  className="text-slate-400 hover:text-white transition-colors p-1 hover:bg-slate-700 rounded-lg"
+                  aria-label="Close demo"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
-              <button
-                onClick={closeDemo}
-                className="text-slate-400 hover:text-white transition-colors p-1 hover:bg-slate-700 rounded-lg"
-                aria-label="Close demo"
+
+              {/* Video player */}
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                controls
+                playsInline
+                className="w-full aspect-video bg-slate-950 block"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                <source src="/demo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+
             </div>
 
-            {/* Video player */}
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              controls
-              playsInline
-              className="w-full aspect-video bg-slate-950 block"
-            >
-              <source src="/demo.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-
+            {/* Hint text */}
+            <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-slate-500 text-sm">
+              Press <kbd className="px-2 py-0.5 bg-slate-800 rounded text-slate-400 text-xs font-mono">Esc</kbd> or click outside to close
+            </p>
           </div>
-
-          {/* Hint text */}
-          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-slate-500 text-sm">
-            Press <kbd className="px-2 py-0.5 bg-slate-800 rounded text-slate-400 text-xs font-mono">Esc</kbd> or click outside to close
-          </p>
-        </div>
-      )}
+        )
+      }
     </>
   )
 }

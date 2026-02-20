@@ -68,8 +68,8 @@ export default function PrivacyPolicy() {
                         <p>
                             If you have any questions about this Privacy Policy, please contact our Data Protection Officer at:
                         </p>
-                        <a href="mailto:privacy@sentinelnexus.ai" className="text-blue-400 hover:text-blue-300 transition-colors mt-2 inline-block">
-                            privacy@sentinelnexus.ai
+                        <a href="mailto:admin.sentinelnexus@mayankiitj.in" className="text-blue-400 hover:text-blue-300 transition-colors mt-2 inline-block">
+                            admin.sentinelnexus@mayankiitj.in
                         </a>
                     </section>
                 </div>
