@@ -374,8 +374,8 @@ export default function HomePage() {
                 <div
                   key={idx}
                   className={`relative rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-2 ${plan.highlighted
-                      ? 'bg-gradient-to-b from-blue-600/20 to-blue-900/20 border-blue-500/50 ring-1 ring-blue-500/20'
-                      : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
+                    ? 'bg-gradient-to-b from-blue-600/20 to-blue-900/20 border-blue-500/50 ring-1 ring-blue-500/20'
+                    : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
                     }`}
                 >
                   {plan.highlighted && (
@@ -402,8 +402,8 @@ export default function HomePage() {
                     ))}
                   </ul>
                   <button className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${plan.highlighted
-                      ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105'
-                      : 'bg-slate-800 text-white hover:bg-slate-700'
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105'
+                    : 'bg-slate-800 text-white hover:bg-slate-700'
                     }`}>
                     {plan.cta}
                   </button>
@@ -716,11 +716,14 @@ export default function HomePage() {
             {/* Video player */}
             <video
               ref={videoRef}
-              src="/demo.mp4"
+              src="/Screen%20Recording%202026-02-19%20171434.mp4"
               controls
+              autoPlay
+              muted
               playsInline
               className="w-full aspect-video bg-slate-950 block"
             />
+
           </div>
 
           {/* Hint text */}
