@@ -371,6 +371,20 @@
   animation: fade-in-up 0.8s ease-out forwards;
 }
 
+.animate-fade-in {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
 .duration-2000 {
   transition-duration: 2000ms;
 }
+
+/* Thin scrollbar for activity feed */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
+

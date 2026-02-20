@@ -50,8 +50,10 @@ export const useAuthStore = create<AuthState>()((set: (partial: Partial<AuthStat
     if (typeof window !== 'undefined') {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user_info');
     }
   },
+
 }));
 
 // ============ Scan Store ============
