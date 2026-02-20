@@ -1,12 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Navbar } from '@/components/Layout'
 import Link from 'next/link'
 
 export default function HomePage() {
   const [showWelcome, setShowWelcome] = useState(true)
   const [welcomePhase, setWelcomePhase] = useState(0)
+  const [showDemo, setShowDemo] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     // Phase 1: Logo appears
@@ -29,6 +31,31 @@ export default function HomePage() {
     }
   }, [])
 
+  // Close demo modal on Escape key
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeDemo()
+    }
+    if (showDemo) {
+      document.addEventListener('keydown', handleKey)
+      document.body.style.overflow = 'hidden'
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKey)
+      document.body.style.overflow = ''
+    }
+  }, [showDemo])
+
+  const openDemo = () => {
+    setShowDemo(true)
+    setTimeout(() => videoRef.current?.play(), 100)
+  }
+
+  const closeDemo = () => {
+    videoRef.current?.pause()
+    setShowDemo(false)
+  }
+
   if (showWelcome) {
     return (
       <div className={`fixed inset-0 z-50 bg-slate-950 flex items-center justify-center overflow-hidden transition-opacity duration-700 ${welcomePhase >= 4 ? 'opacity-0' : 'opacity-100'}`}>
@@ -47,14 +74,14 @@ export default function HomePage() {
             />
           ))}
         </div>
-        
+
         {/* Animated gradient orbs */}
         <div className="absolute inset-0">
           <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/40 rounded-full blur-[200px] transition-all duration-1000 ${welcomePhase >= 1 ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}`} />
           <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/30 rounded-full blur-[150px] transition-all duration-1000 delay-200 ${welcomePhase >= 1 ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}`} />
           <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-500/40 rounded-full blur-[120px] transition-all duration-1000 delay-300 ${welcomePhase >= 2 ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}`} />
         </div>
-        
+
         {/* Shield animation */}
         <div className="relative z-10 text-center">
           <div className={`mb-8 transition-all duration-700 ${welcomePhase >= 1 ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-180'}`}>
@@ -70,23 +97,23 @@ export default function HomePage() {
               <div className="absolute -inset-8 border border-cyan-500/20 rounded-full animate-spin" style={{ animationDuration: '12s', animationDirection: 'reverse' }} />
             </div>
           </div>
-          
+
           {/* Text reveal */}
           <h1 className={`text-5xl md:text-7xl font-bold mb-4 transition-all duration-700 ${welcomePhase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <span className="text-white">SentinelNexus</span>
             <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent"> Guard</span>
           </h1>
-          
+
           {/* Tagline with typing effect */}
           <p className={`text-xl text-slate-400 transition-all duration-700 ${welcomePhase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent font-medium">
               Initializing AI Security Intelligence...
             </span>
           </p>
-          
+
           {/* Loading bar */}
           <div className={`mt-8 w-64 mx-auto h-1 bg-slate-800 rounded-full overflow-hidden transition-opacity duration-500 ${welcomePhase >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 rounded-full transition-all duration-2000"
               style={{ width: welcomePhase >= 3 ? '100%' : '0%' }}
             />
@@ -108,10 +135,10 @@ export default function HomePage() {
             <div className="absolute top-60 -left-40 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[150px] animate-pulse delay-1000" />
             <div className="absolute bottom-20 right-20 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse delay-500" />
           </div>
-          
+
           {/* Grid pattern overlay */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djJoLTJ2LTJoMnptMC00aDJ2Mmgtdi0yem0tNCA0di0yaDJ2MmgtMnptMi00di0yaDJ2MmgtMnptLTItNHYyaC0ydi0yaDJ6bS00IDRoMnYyaC0ydi0yem0wLTRoMnYyaC0ydi0yem0tNCA0aDJ2MmgtMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40" />
-          
+
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
             <div className="text-center space-y-8 animate-fade-in">
               {/* Badge */}
@@ -122,7 +149,7 @@ export default function HomePage() {
                 </span>
                 Enterprise AI Security Platform
               </div>
-              
+
               {/* Main Headline */}
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
                 <span className="block text-white">SentinelNexus</span>
@@ -130,15 +157,15 @@ export default function HomePage() {
                   Guard
                 </span>
               </h1>
-              
+
               <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
                 Next-generation AI security intelligence. Detect vulnerabilities, ensure compliance, and protect your AI applications with enterprise-grade scanning.
               </p>
-              
+
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Link 
-                  href="/auth/register" 
+                <Link
+                  href="/auth/register"
                   className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
                 >
                   <span className="flex items-center justify-center gap-2">
@@ -148,20 +175,22 @@ export default function HomePage() {
                     </svg>
                   </span>
                 </Link>
-                <Link 
-                  href="#demo" 
-                  className="px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 hover:border-slate-600 text-white font-semibold rounded-xl transition-all duration-300 backdrop-blur-sm"
+                <button
+                  onClick={openDemo}
+                  className="group px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 hover:border-blue-500/50 text-white font-semibold rounded-xl transition-all duration-300 backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/10 hover:scale-105"
                 >
                   <span className="flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <span className="relative flex h-5 w-5 items-center justify-center">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-40 group-hover:opacity-75"></span>
+                      <svg className="relative w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </span>
                     Watch Demo
                   </span>
-                </Link>
+                </button>
               </div>
-              
+
               {/* Trust badges */}
               <div className="pt-12 flex flex-wrap items-center justify-center gap-8 text-slate-500 text-sm">
                 {['SOC 2 Ready', 'GDPR Compliant', 'EU AI Act Ready', 'ISO 27001'].map((badge) => (
@@ -211,7 +240,7 @@ export default function HomePage() {
                 Comprehensive security scanning for modern AI applications
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 {
@@ -251,7 +280,7 @@ export default function HomePage() {
                   gradient: 'from-indigo-500 to-blue-500',
                 },
               ].map((feature, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="group relative bg-slate-900/50 border border-slate-800 rounded-2xl p-8 hover:border-slate-700 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl overflow-hidden"
                 >
@@ -278,11 +307,11 @@ export default function HomePage() {
                 Secure your AI in minutes
               </h3>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-8 relative">
               {/* Connecting line */}
               <div className="hidden md:block absolute top-16 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500" />
-              
+
               {[
                 { step: '01', title: 'Connect', desc: 'Connect your repositories and AI applications', icon: '🔗' },
                 { step: '02', title: 'Scan', desc: 'Our AI scans for vulnerabilities and compliance issues', icon: '🔍' },
@@ -311,7 +340,7 @@ export default function HomePage() {
               </h3>
               <p className="text-slate-400 text-lg">Start free, scale as you grow</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {[
                 {
@@ -344,11 +373,10 @@ export default function HomePage() {
               ].map((plan, idx) => (
                 <div
                   key={idx}
-                  className={`relative rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-2 ${
-                    plan.highlighted 
-                      ? 'bg-gradient-to-b from-blue-600/20 to-blue-900/20 border-blue-500/50 ring-1 ring-blue-500/20' 
+                  className={`relative rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-2 ${plan.highlighted
+                      ? 'bg-gradient-to-b from-blue-600/20 to-blue-900/20 border-blue-500/50 ring-1 ring-blue-500/20'
                       : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
-                  }`}
+                    }`}
                 >
                   {plan.highlighted && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -373,11 +401,10 @@ export default function HomePage() {
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
-                    plan.highlighted
+                  <button className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${plan.highlighted
                       ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105'
                       : 'bg-slate-800 text-white hover:bg-slate-700'
-                  }`}>
+                    }`}>
                     {plan.cta}
                   </button>
                 </div>
@@ -395,7 +422,7 @@ export default function HomePage() {
                 Trusted by industry leaders
               </h3>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { name: 'Sarah Chen', role: 'CTO, TechFlow AI', text: 'SentinelNexus Guard transformed our security posture. We catch vulnerabilities before they become problems.', avatar: '👩‍💼' },
@@ -439,8 +466,8 @@ export default function HomePage() {
             <p className="text-xl text-slate-400 mb-8">
               Join thousands of teams using SentinelNexus Guard to protect their AI applications
             </p>
-            <Link 
-              href="/auth/register" 
+            <Link
+              href="/auth/register"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 font-semibold rounded-xl hover:bg-slate-100 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
             >
               Get Started Free
@@ -459,10 +486,10 @@ export default function HomePage() {
             <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[200px] mix-blend-screen animate-pulse delay-700" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/15 rounded-full blur-[150px] mix-blend-overlay animate-pulse delay-300" />
           </div>
-          
+
           {/* Glass morphism overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-transparent backdrop-blur-sm" />
-          
+
           <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-3">Get In Touch</h2>
@@ -473,12 +500,12 @@ export default function HomePage() {
                 Have questions? Reach out through any of these channels
               </p>
             </div>
-            
+
             {/* Contact cards with blended glass effect */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               {/* Email Cards */}
-              <a 
-                href="mailto:admin@mayyanks.app" 
+              <a
+                href="mailto:admin@mayyanks.app"
                 className="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay" />
@@ -495,9 +522,9 @@ export default function HomePage() {
                   </div>
                 </div>
               </a>
-              
-              <a 
-                href="mailto:admin@mayankiitj.in" 
+
+              <a
+                href="mailto:admin@mayankiitj.in"
                 className="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/10 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay" />
@@ -515,11 +542,11 @@ export default function HomePage() {
                 </div>
               </a>
             </div>
-            
+
             {/* Social Links */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="https://linkedin.com/in/mayankiitj" 
+              <a
+                href="https://linkedin.com/in/mayankiitj"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative flex items-center gap-4 bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl px-8 py-5 hover:border-blue-600/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-600/10 overflow-hidden"
@@ -528,7 +555,7 @@ export default function HomePage() {
                 <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-20 h-20 bg-blue-600/30 rounded-full blur-2xl group-hover:bg-blue-600/50 transition-all duration-500" />
                 <div className="relative w-12 h-12 bg-[#0A66C2] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                   </svg>
                 </div>
                 <div className="relative">
@@ -536,9 +563,9 @@ export default function HomePage() {
                   <div className="text-slate-400 text-sm">@mayankiitj</div>
                 </div>
               </a>
-              
-              <a 
-                href="https://github.com/Mayank-iitj" 
+
+              <a
+                href="https://github.com/Mayank-iitj"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative flex items-center gap-4 bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl px-8 py-5 hover:border-slate-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-white/5 overflow-hidden"
@@ -547,7 +574,7 @@ export default function HomePage() {
                 <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-20 h-20 bg-slate-500/30 rounded-full blur-2xl group-hover:bg-slate-400/50 transition-all duration-500" />
                 <div className="relative w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-slate-700 transition-all duration-300">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                   </svg>
                 </div>
                 <div className="relative">
@@ -556,7 +583,7 @@ export default function HomePage() {
                 </div>
               </a>
             </div>
-            
+
             {/* Decorative element */}
             <div className="mt-12 flex justify-center">
               <div className="flex items-center gap-3 text-slate-500 text-sm">
@@ -586,7 +613,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-slate-400 text-sm">Next-generation AI security intelligence platform.</p>
               </div>
-              
+
               <div>
                 <h4 className="text-white font-semibold mb-4">Product</h4>
                 <ul className="space-y-2 text-slate-400 text-sm">
@@ -596,7 +623,7 @@ export default function HomePage() {
                   <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
                 </ul>
               </div>
-              
+
               <div>
                 <h4 className="text-white font-semibold mb-4">Company</h4>
                 <ul className="space-y-2 text-slate-400 text-sm">
@@ -606,7 +633,7 @@ export default function HomePage() {
                   <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
                 </ul>
               </div>
-              
+
               <div>
                 <h4 className="text-white font-semibold mb-4">Legal</h4>
                 <ul className="space-y-2 text-slate-400 text-sm">
@@ -617,7 +644,7 @@ export default function HomePage() {
                 </ul>
               </div>
             </div>
-            
+
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-slate-800">
               <div className="text-slate-500 text-sm">
                 © 2026 SentinelNexus Guard. All rights reserved.
@@ -644,6 +671,64 @@ export default function HomePage() {
           </div>
         </footer>
       </div>
+
+      {/* ── VIDEO DEMO MODAL ── */}
+      {showDemo && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center"
+          onClick={closeDemo}
+        >
+          {/* Dark backdrop with blur */}
+          <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md" />
+
+          {/* Glow orbs behind player */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none" />
+
+          {/* Player card */}
+          <div
+            className="relative z-10 w-full max-w-5xl mx-4 rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/60"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Title bar */}
+            <div className="flex items-center justify-between px-5 py-3 bg-slate-900/90 backdrop-blur-sm border-b border-slate-700/50">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                </div>
+                <span className="text-slate-400 text-sm font-medium tracking-wide">
+                  SentinelNexus Guard — Live Demo
+                </span>
+              </div>
+              <button
+                onClick={closeDemo}
+                className="text-slate-400 hover:text-white transition-colors p-1 hover:bg-slate-700 rounded-lg"
+                aria-label="Close demo"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Video player */}
+            <video
+              ref={videoRef}
+              src="/demo.mp4"
+              controls
+              playsInline
+              className="w-full aspect-video bg-slate-950 block"
+            />
+          </div>
+
+          {/* Hint text */}
+          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-slate-500 text-sm">
+            Press <kbd className="px-2 py-0.5 bg-slate-800 rounded text-slate-400 text-xs font-mono">Esc</kbd> or click outside to close
+          </p>
+        </div>
+      )}
     </>
   )
 }

@@ -34,11 +34,11 @@ def check(name: str, condition, detail: str = ""):
 # ─────────────────────────────────────────────────────────────────────────────
 print("\n══ 1. RealSecretDetector (gitleaks/truffleHog patterns) ══")
 
-aws_code = 'access_key = "AKIAIOSFODNN7EXAMPLE"'
-gh_code   = 'token = "ghp_ABcdefghijklmnopqrstuvwxyz1234567890AB"'   # 36 chars after ghp_
-jwt_code  = 'auth = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U"'
-oai_code  = 'OPENAI_KEY = "sk-proj-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv"'
-slack_code= 'bot_token = "xoxb-1234567890123-9876543210987-ABCDEFGHIJKLMNOPQRSTUVWXyz"'  # real format
+aws_code  = 'access_key = "AKIAIOSFODNN7EXAMPLE"'          # AWS example key (from AWS docs)
+gh_code   = 'token = "ghp_EXAMPLE1234567890ABcdefghijk1234567890"'   # 36 chars after ghp_
+jwt_code  = 'auth = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.EXAMPLE_SIGNATURE_HERE_XXXX"'
+oai_code  = 'OPENAI_KEY = "sk-proj-EXAMPLEABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv"'
+slack_code= 'bot_token = "xoxb-0000000000000-0000000000000-EXAMPLEabcdefghijklmnopqr"'  # clearly fake
 safe_code = 'x = 42\nname = "hello world"\n# no secrets here'
 
 aws_f  = RealSecretDetector.scan(aws_code)
@@ -294,7 +294,7 @@ check("Findings have correct type",       all(e.finding is not None for e in str
 # ─────────────────────────────────────────────────────────────────────────────
 print("\n══ 12. quick_scan() convenience API ══")
 
-qs = quick_scan("OPENAI_KEY = 'sk-proj-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv'")
+qs = quick_scan("OPENAI_KEY = 'sk-proj-EXAMPLEABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv'")
 check("quick_scan returns ScanResult",    qs is not None)
 check("quick_scan detects the secret",    qs.total_findings > 0,     f"{qs.total_findings} finding(s)")
 check("quick_scan uses FULL mode",        qs.scan_mode == ScanMode.FULL)
