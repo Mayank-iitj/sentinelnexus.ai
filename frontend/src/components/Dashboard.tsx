@@ -274,8 +274,8 @@ IP Address: 192.168.1.100 | IBAN: GB29NWBK60161331926819`,
             key={m}
             onClick={() => setMode(m)}
             className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all duration-200 ${mode === m
-                ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20'
-                : 'text-slate-400 hover:text-white'
+              ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20'
+              : 'text-slate-400 hover:text-white'
               }`}
           >
             {m === 'code' ? '💻 Code' : m === 'prompt' ? '🔮 Prompt' : '🔐 PII'}
@@ -510,14 +510,44 @@ export function DashboardContent() {
   const [avgRisk, setAvgRisk] = useState(32)
   const [threatsBlocked, setThreatsBlocked] = useState(847)
 
-  // Simulate live counter ticks
+  // Real-time Monitor Feed via WebSocket
   useEffect(() => {
-    const iv = setInterval(() => {
-      setTotalScans((n) => n + Math.floor(Math.random() * 3))
-      setThreatsBlocked((n) => n + (Math.random() > 0.7 ? 1 : 0))
-      setLastRefresh(new Date())
-    }, 5000)
-    return () => clearInterval(iv)
+    const wsUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/^http/, 'ws') + '/api/v1/ws/scan'
+    const ws = new WebSocket(wsUrl)
+
+    ws.onopen = () => {
+      // Subscribe to global monitor feed
+      ws.send(JSON.stringify({ type: 'monitor' }))
+    }
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data)
+        if (data.event_type === 'activity') {
+          const now = new Date().toLocaleTimeString()
+          const newActivity: Activity = {
+            id: `${Date.now()}-${Math.random()}`,
+            msg: data.msg,
+            severity: data.severity,
+            time: now
+          }
+          setActivity(prev => [newActivity, ...prev].slice(0, 50))
+
+          // Live counters update
+          setTotalScans(n => n + 1)
+          setLastRefresh(new Date())
+          if (data.severity !== 'info' && data.severity !== 'low') {
+            setThreatsBlocked(n => n + 1)
+          }
+        }
+      } catch (e) {
+        console.error('WS Parse Error', e)
+      }
+    }
+
+    return () => {
+      if (ws.readyState === 1) ws.close()
+    }
   }, [])
 
   const handleResult = useCallback((r: ScanResult) => {
@@ -583,8 +613,8 @@ export function DashboardContent() {
                 key={t.id}
                 onClick={() => setTab(t.id as 'scan' | 'results')}
                 className={`px-5 py-3 text-sm font-medium transition-all duration-200 ${tab === t.id
-                    ? 'border-b-2 border-blue-500 text-blue-400 bg-blue-500/5'
-                    : 'text-slate-500 hover:text-slate-300'
+                  ? 'border-b-2 border-blue-500 text-blue-400 bg-blue-500/5'
+                  : 'text-slate-500 hover:text-slate-300'
                   }`}
               >
                 {t.label}

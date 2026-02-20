@@ -152,7 +152,9 @@ export default function HomePage() {
                   </span>
                 </Link>
                 <a
-                  href="#demo"
+                  href="https://drive.google.com/file/d/1hLKbVFkG4y6dxi8e8ix3C3eeUzwAltK_/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 hover:border-blue-500/50 text-white font-semibold rounded-xl transition-all duration-300 backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/10 hover:scale-105 cursor-pointer"
                 >
                   <span className="flex items-center gap-2">
@@ -194,7 +196,7 @@ export default function HomePage() {
                 playsInline
                 className="w-full h-auto object-cover"
               >
-                <source src="/demo.mp4.mp4" type="video/mp4" />
+                <source src="/demo.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent pointer-events-none" />

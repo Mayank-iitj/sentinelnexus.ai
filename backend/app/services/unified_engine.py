@@ -687,6 +687,179 @@ class CodeSecurityScanner:
         w = {Severity.CRITICAL: 30, Severity.HIGH: 15, Severity.MEDIUM: 7, Severity.LOW: 2}
         return min(100.0, sum(w.get(f.severity, 0) * f.confidence for f in findings))
 
+    @classmethod
+    async def scan_stream(cls, code: str, file_path: str = "<input>") -> AsyncGenerator[ScanEvent, None]:
+        """
+        Async generator that yields ScanEvents for real-time progress.
+        """
+        yield ScanEvent(
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type="progress",
+            progress_pct=5.0,
+            message="Initializing Code Security Scanner..."
+        )
+        await asyncio.sleep(0.1)  # Simulate init
+
+        findings: List[Finding] = []
+        lines = code.split("\n")
+        total_steps = len(lines) + 2 # Regex + AST + Secrets
+        current_step = 0
+
+        # Regex scan
+        yield ScanEvent(
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type="progress",
+            progress_pct=10.0,
+            message="Running Pattern Matching..."
+        )
+        
+        for line_num, line in enumerate(lines, 1):
+            s = line.strip()
+            if not s or s.startswith("#"):
+                continue
+                
+            for pat, sev, ftype, title, desc, cwe in cls.PATTERNS:
+                if pat.search(line):
+                    finding = Finding(
+                        id=hashlib.md5(f"{file_path}:{line_num}:{ftype}".encode()).hexdigest()[:8],
+                        domain=RiskDomain.CODE_SECURITY,
+                        finding_type=ftype,
+                        severity=sev,
+                        title=title,
+                        description=desc,
+                        location=f"{file_path}:{line_num}",
+                        evidence=s[:140],
+                        remediation=f"Fix per {cwe}. See https://cwe.mitre.org/data/definitions/{cwe.split('-')[-1]}.html",
+                        suggested_fix=f"# Resolve {cwe}",
+                        cve_refs=[cwe],
+                        confidence=0.92,
+                    )
+                    findings.append(finding)
+                    yield ScanEvent(
+                        timestamp=datetime.now(timezone.utc).isoformat(),
+                        event_type="finding",
+                        finding=finding,
+                        message=f"Found {title}"
+                    )
+            
+            # Progress update every 10 lines or so to avoid spam
+            if line_num % 10 == 0 or line_num == len(lines):
+                 progress = 10.0 + (line_num / len(lines)) * 40.0
+                 yield ScanEvent(
+                    timestamp=datetime.now(timezone.utc).isoformat(),
+                    event_type="progress",
+                    progress_pct=progress,
+                    message=f"Scanning line {line_num}..."
+                )
+                 await asyncio.sleep(0.01) # Yield control
+
+        # AST-level analysis
+        yield ScanEvent(
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type="progress",
+            progress_pct=50.0,
+            message="Analyzing AST Structure..."
+        )
+        try:
+            tree = ast.parse(code)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Call):
+                    fname = (node.func.id if isinstance(node.func, ast.Name)
+                             else node.func.attr if isinstance(node.func, ast.Attribute)
+                             else None)
+                    if fname and fname in cls.UNSAFE_CALLS:
+                        sev, cwe, desc = cls.UNSAFE_CALLS[fname]
+                        ln = getattr(node, "lineno", "?")
+                        finding = Finding(
+                            id=hashlib.md5(f"{file_path}:{ln}:{fname}:ast".encode()).hexdigest()[:8],
+                            domain=RiskDomain.CODE_SECURITY,
+                            finding_type="dangerous_builtin",
+                            severity=sev,
+                            title=f"Dangerous Built-in: {fname}()",
+                            description=desc,
+                            location=f"{file_path}:{ln}",
+                            evidence=f"{fname}(...)",
+                            remediation=f"Remove {fname}(). {cwe}",
+                            cve_refs=[cwe],
+                            confidence=1.0,
+                        )
+                        findings.append(finding)
+                        yield ScanEvent(
+                            timestamp=datetime.now(timezone.utc).isoformat(),
+                            event_type="finding",
+                            finding=finding,
+                            message=f"Found dangerous call: {fname}"
+                        )
+
+                if isinstance(node, (ast.Import, ast.ImportFrom)):
+                    aliases = node.names if isinstance(node, ast.Import) else node.names
+                    for alias in aliases:
+                        mod = alias.name.split(".")[0]
+                        if mod in cls.RISKY_IMPORTS:
+                            ln = getattr(node, "lineno", "?")
+                            cwe_note = cls.RISKY_IMPORTS[mod]
+                            finding = Finding(
+                                id=hashlib.md5(f"{file_path}:import:{mod}".encode()).hexdigest()[:8],
+                                domain=RiskDomain.CODE_SECURITY,
+                                finding_type="risky_import",
+                                severity=sev, # Inherits from last loop? No.. Wait cls.RISKY_IMPORTS values are strings
+                                title=f"Risky Import: {mod}",
+                                description=cwe_note,
+                                location=f"{file_path}:{ln}",
+                                evidence=f"import {mod}",
+                                remediation=f"Review security implications of {mod}.",
+                                cve_refs=[cwe_note.split()[0]],
+                                confidence=0.8,
+                            )
+                             # Fix severity issue - RISKY_IMPORTS is Dict[str, str], not Tuple like UNSAFE_CALLS
+                            finding.severity = Severity.HIGH 
+
+                            findings.append(finding)
+                            yield ScanEvent(
+                                timestamp=datetime.now(timezone.utc).isoformat(),
+                                event_type="finding",
+                                finding=finding,
+                                message=f"Found risky import: {mod}"
+                            )
+            await asyncio.sleep(0.1)
+
+        except SyntaxError:
+             yield ScanEvent(
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                event_type="error",
+                message="Syntax Error in code parsing"
+            )
+
+        # Real secret detection
+        yield ScanEvent(
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type="progress",
+            progress_pct=80.0,
+            message="Checking for Secrets..."
+        )
+        
+        secret_findings = RealSecretDetector.scan(code, file_path)
+        for f in secret_findings:
+             findings.append(f)
+             yield ScanEvent(
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                event_type="finding",
+                finding=f,
+                message=f"Found Secret: {f.title}"
+            )
+        
+        await asyncio.sleep(0.1)
+
+        # Complete
+        yield ScanEvent(
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type="complete",
+            progress_pct=100.0,
+            message=f"Scan Complete. Found {len(findings)} issues.",
+            # We can't return the full result object here easily without restructuring, 
+            # but the frontend can aggregate findings from events.
+        )
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # REAL PII ENGINE  —  Microsoft Presidio + spaCy NLP
