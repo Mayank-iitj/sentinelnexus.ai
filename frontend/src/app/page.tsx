@@ -716,13 +716,15 @@ export default function HomePage() {
             {/* Video player */}
             <video
               ref={videoRef}
-              src="/Screen%20Recording%202026-02-19%20171434.mp4"
-              controls
               autoPlay
               muted
+              controls
               playsInline
               className="w-full aspect-video bg-slate-950 block"
-            />
+            >
+              <source src="/demo.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
 
           </div>
 
