@@ -123,19 +123,19 @@ export default function HomePage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                 </span>
-                Enterprise AI Security Platform
+                SentinelNexus Security Platform
               </div>
 
               {/* Main Headline */}
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
                 <span className="block text-white">SentinelNexus</span>
                 <span className="block bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
-                  Guard
+                  Cyber-Defense
                 </span>
               </h1>
 
               <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-                Next-generation AI security intelligence. Detect vulnerabilities, ensure compliance, and protect your AI applications with enterprise-grade scanning.
+                Next-generation security intelligence. Detect vulnerabilities, automate application security testing, and protect your cloud infrastructure with enterprise-grade scanning modules.
               </p>
 
               {/* CTA Buttons */}

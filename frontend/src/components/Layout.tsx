@@ -75,9 +75,6 @@ export function Navbar() {
                 <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
                   SentinelNexus
                 </span>
-                <span className="text-base sm:text-lg font-semibold text-white ml-1">
-                  Guard
-                </span>
               </div>
             </Link>
 

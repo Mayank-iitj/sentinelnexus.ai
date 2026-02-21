@@ -12,6 +12,8 @@ from datetime import datetime
 import uuid
 import zipfile
 import io
+from app.worker.tasks import run_vulnerability_scan
+from app.schemas.scan import WebScanRequest
 
 router = APIRouter(prefix="/api/v1/scans", tags=["scans"])
 
@@ -217,3 +219,39 @@ def list_project_scans(project_id: str, skip: int = 0, limit: int = 10, db: Sess
     ).order_by(Scan.created_at.desc()).offset(skip).limit(limit).all()
     
     return scans
+
+
+@router.post("/web", response_model=ScanResponse)
+def scan_web(scan_request: WebScanRequest, db: Session = Depends(get_db)):
+    """Trigger a modular web security scan via background worker"""
+    
+    project = db.query(Project).filter(Project.id == scan_request.project_id).first()
+    if not project:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Project not found"
+        )
+    
+    # Create scan record
+    scan = Scan(
+        id=str(uuid.uuid4()),
+        project_id=scan_request.project_id,
+        scan_type="web",
+        status="pending",
+        created_at=datetime.utcnow()
+    )
+    db.add(scan)
+    db.commit()
+    
+    # Trigger Celery task
+    task = run_vulnerability_scan.delay(
+        target_url=scan_request.target_url,
+        config=scan_request.config
+    )
+    
+    # Update scan with task ID
+    scan.metadata = {"celery_task_id": task.id, "target_url": scan_request.target_url}
+    db.commit()
+    db.refresh(scan)
+    
+    return scan

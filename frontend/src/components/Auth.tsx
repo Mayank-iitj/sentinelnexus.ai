@@ -116,10 +116,10 @@ export function LoginForm() {
       <button
         onClick={handleGoogleSignIn}
         disabled={isGoogleLoading}
-        className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:opacity-50 text-gray-800 font-medium py-3 px-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md"
+        className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-white disabled:opacity-50 text-slate-900 font-bold py-3.5 px-4 rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
       >
         <GoogleIcon />
-        {isGoogleLoading ? 'Connecting...' : 'Continue with Google'}
+        {isGoogleLoading ? 'Decrypting...' : 'Continue with Google'}
       </button>
 
       <Divider />
@@ -144,7 +144,7 @@ export function LoginForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full bg-slate-950/80 border border-slate-800 focus:border-blue-500/50 rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all font-mono"
             placeholder="••••••••"
             required
           />
@@ -163,7 +163,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 disabled:opacity-50 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+          className="w-full bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-[length:200%_auto] animate-gradient-x hover:scale-[1.02] disabled:opacity-50 text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] active:scale-[0.98]"
         >
           {isLoading ? (
             <span className="flex items-center justify-center gap-2">
@@ -171,9 +171,9 @@ export function LoginForm() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              Signing in...
+              AUTHENTICATING...
             </span>
-          ) : 'Sign in'}
+          ) : 'AUTHORIZE ACCESS'}
         </button>
       </form>
     </div>

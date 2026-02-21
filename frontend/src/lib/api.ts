@@ -40,10 +40,10 @@ apiClient.interceptors.response.use(
 export const authApi = {
   register: (email: string, username: string, password: string, fullName?: string) =>
     apiClient.post('/api/v1/auth/register', { email, username, password, full_name: fullName }),
-  
+
   login: (email: string, password: string) =>
     apiClient.post('/api/v1/auth/login', { email, password }),
-  
+
   getCurrentUser: () =>
     apiClient.get('/api/v1/auth/me'),
 };
@@ -55,41 +55,48 @@ export const scanApi = {
       scan_type: 'code',
       code_content: codeContent,
     }),
-  
+
   scanPrompt: (projectId: string, promptText: string) =>
     apiClient.post('/api/v1/scans/prompt', {
       project_id: projectId,
       scan_type: 'prompt',
       prompt_text: promptText,
     }),
-  
+
   scanPII: (projectId: string, codeContent: string) =>
     apiClient.post('/api/v1/scans/pii', {
       project_id: projectId,
       scan_type: 'pii',
       code_content: codeContent,
     }),
-  
+
   getScan: (scanId: string) =>
     apiClient.get(`/api/v1/scans/${scanId}`),
-  
+
   listProjectScans: (projectId: string, skip = 0, limit = 10) =>
     apiClient.get(`/api/v1/scans/project/${projectId}?skip=${skip}&limit=${limit}`),
+
+  scanWeb: (projectId: string, targetUrl: string, config: any = {}) =>
+    apiClient.post('/api/v1/scans/web', {
+      project_id: projectId,
+      target_url: targetUrl,
+      config: config,
+    }),
 };
 
 export const projectApi = {
   createProject: (name: string, description?: string, repoUrl?: string) =>
     apiClient.post('/api/v1/projects/', { name, description, repo_url: repoUrl }),
-  
+
   getProject: (projectId: string) =>
     apiClient.get(`/api/v1/projects/${projectId}`),
-  
+
   updateProject: (projectId: string, name?: string, description?: string) =>
     apiClient.put(`/api/v1/projects/${projectId}`, { name, description }),
-  
+
   listOrgProjects: (orgId: string) =>
     apiClient.get(`/api/v1/projects/org/${orgId}`),
-  
+
   deleteProject: (projectId: string) =>
     apiClient.delete(`/api/v1/projects/${projectId}`),
 };
@@ -97,13 +104,13 @@ export const projectApi = {
 export const organizationApi = {
   createOrganization: (name: string, slug: string, description?: string) =>
     apiClient.post('/api/v1/organizations/', { name, slug, description }),
-  
+
   getOrganization: (orgId: string) =>
     apiClient.get(`/api/v1/organizations/${orgId}`),
-  
+
   updateOrganization: (orgId: string, name?: string, description?: string) =>
     apiClient.put(`/api/v1/organizations/${orgId}`, { name, description }),
-  
+
   listOrganizations: () =>
     apiClient.get('/api/v1/organizations/'),
 };
@@ -111,10 +118,10 @@ export const organizationApi = {
 export const alertApi = {
   listProjectAlerts: (projectId: string) =>
     apiClient.get(`/api/v1/alerts/project/${projectId}`),
-  
+
   getAlert: (alertId: string) =>
     apiClient.get(`/api/v1/alerts/${alertId}`),
-  
+
   updateAlert: (alertId: string, isRead?: boolean, isResolved?: boolean) =>
     apiClient.patch(`/api/v1/alerts/${alertId}`, { is_read: isRead, is_resolved: isResolved }),
 };
@@ -122,7 +129,7 @@ export const alertApi = {
 export const subscriptionApi = {
   getSubscription: (orgId: string) =>
     apiClient.get(`/api/v1/subscriptions/org/${orgId}`),
-  
+
   upgrade: (orgId: string, plan: string) =>
     apiClient.post('/api/v1/subscriptions/upgrade', { plan }, {
       params: { org_id: orgId }

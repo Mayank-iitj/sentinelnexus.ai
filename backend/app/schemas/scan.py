@@ -22,6 +22,12 @@ class MonitoringScanRequest(ScanRequestBase):
     output_logs: Optional[str] = None
 
 
+class WebScanRequest(BaseModel):
+    project_id: str
+    target_url: str
+    config: Optional[Dict[str, Any]] = {}
+
+
 class ScanResultResponse(BaseModel):
     id: str
     finding_type: str
