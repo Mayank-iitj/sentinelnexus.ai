@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     
     # CORS
     ALLOWED_ORIGINS: list = ["http://localhost:3000", "http://localhost:8000"]
+    ALLOWED_HOSTS: list = ["localhost", "127.0.0.1", "aishield.io"]
     
     # JWT
     JWT_SECRET_KEY: str = "jwt-secret-key-change-in-production"

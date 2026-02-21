@@ -34,7 +34,7 @@ app.add_middleware(
 # Trusted host middleware
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["localhost", "127.0.0.1", "aishield.io"]
+    allowed_hosts=settings.ALLOWED_HOSTS
 )
 
 # Include API routes

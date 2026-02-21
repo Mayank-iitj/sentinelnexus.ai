@@ -699,7 +699,7 @@ class CodeSecurityScanner:
             progress_pct=5.0,
             message="Initializing Code Security Scanner..."
         )
-        await asyncio.sleep(0.1)  # Simulate init
+        # Initializing Code Security Scanner...
 
         findings: List[Finding] = []
         lines = code.split("\n")
@@ -752,7 +752,9 @@ class CodeSecurityScanner:
                     progress_pct=progress,
                     message=f"Scanning line {line_num}..."
                 )
-                 await asyncio.sleep(0.01) # Yield control
+            # Yield control occasionally for long scans
+            if line_num % 100 == 0:
+                await asyncio.sleep(0)
 
         # AST-level analysis
         yield ScanEvent(
@@ -822,7 +824,7 @@ class CodeSecurityScanner:
                                 finding=finding,
                                 message=f"Found risky import: {mod}"
                             )
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0)
 
         except SyntaxError:
              yield ScanEvent(
@@ -849,7 +851,7 @@ class CodeSecurityScanner:
                 message=f"Found Secret: {f.title}"
             )
         
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0)
 
         # Complete
         yield ScanEvent(

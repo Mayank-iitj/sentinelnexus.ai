@@ -1,18 +1,20 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Dict, Any
 from app.services.scanners.domain_verification import DomainVerificationService
+from app.core.redis import get_redis
 import uuid
 
 router = APIRouter(prefix="/verify", tags=["verification"])
 
-# In-memory token store (Should be in DB for production)
-pending_verifications = {}
+# Redis client for token storage
+redis = get_redis()
 
 @router.post("/token")
 def get_verification_token(domain: str):
     """Generate a unique verification token for a domain"""
     token = str(uuid.uuid4())
-    pending_verifications[domain] = token
+    # Store in Redis with 1 hour expiration
+    redis.setex(f"verify:{domain}", 3600, token)
     return {
         "domain": domain,
         "token": token,
@@ -24,7 +26,7 @@ def get_verification_token(domain: str):
 @router.get("/check")
 async def check_verification(domain: str, method: str = "dns"):
     """Check if domain is verified via specified method"""
-    token = pending_verifications.get(domain)
+    token = redis.get(f"verify:{domain}")
     if not token:
         raise HTTPException(status_code=400, detail="No token generated for domain")
     
