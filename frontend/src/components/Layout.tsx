@@ -52,8 +52,8 @@ export function Navbar() {
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-500 border-b border-slate-800/50 ${scrolled
-          ? 'bg-slate-950/95 backdrop-blur-xl shadow-lg shadow-slate-950/50'
-          : 'bg-slate-950/80 backdrop-blur-xl'
+        ? 'bg-slate-950/95 backdrop-blur-xl shadow-lg shadow-slate-950/50'
+        : 'bg-slate-950/80 backdrop-blur-xl'
         } ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
       style={{ transitionProperty: 'transform, opacity, background-color, box-shadow' }}
     >
@@ -72,10 +72,10 @@ export function Navbar() {
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
               </div>
               <div className="flex items-baseline">
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
                   SentinelNexus
                 </span>
-                <span className="text-lg font-semibold text-white ml-1">
+                <span className="text-base sm:text-lg font-semibold text-white ml-1">
                   Guard
                 </span>
               </div>
@@ -153,13 +153,40 @@ export function Navbar() {
         </div>
 
         {/* Mobile menu */}
-        {mobileMenuOpen && user && (
-          <div className="md:hidden py-4 border-t border-slate-800">
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-slate-800 animate-fade-in">
             <div className="flex flex-col gap-1">
-              <MobileNavLink href="/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</MobileNavLink>
-              <MobileNavLink href="/scans" onClick={() => setMobileMenuOpen(false)}>Scans</MobileNavLink>
-              <MobileNavLink href="/projects" onClick={() => setMobileMenuOpen(false)}>Projects</MobileNavLink>
-              <MobileNavLink href="/reports" onClick={() => setMobileMenuOpen(false)}>Reports</MobileNavLink>
+              {user ? (
+                <>
+                  <MobileNavLink href="/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</MobileNavLink>
+                  <MobileNavLink href="/scans" onClick={() => setMobileMenuOpen(false)}>Scans</MobileNavLink>
+                  <MobileNavLink href="/projects" onClick={() => setMobileMenuOpen(false)}>Projects</MobileNavLink>
+                  <MobileNavLink href="/reports" onClick={() => setMobileMenuOpen(false)}>Reports</MobileNavLink>
+                </>
+              ) : (
+                <>
+                  <MobileNavLink href="/#features" onClick={() => setMobileMenuOpen(false)}>Features</MobileNavLink>
+                  <MobileNavLink href="/#pricing" onClick={() => setMobileMenuOpen(false)}>Pricing</MobileNavLink>
+                  <MobileNavLink href="/#testimonials" onClick={() => setMobileMenuOpen(false)}>Testimonials</MobileNavLink>
+                  <MobileNavLink href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</MobileNavLink>
+                  <div className="pt-4 px-4 flex flex-col gap-2">
+                    <Link
+                      href="/auth/login"
+                      className="w-full py-3 text-center text-slate-300 hover:text-white border border-slate-700 rounded-xl"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      href="/auth/register"
+                      className="w-full py-3 text-center bg-blue-600 text-white rounded-xl shadow-lg"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

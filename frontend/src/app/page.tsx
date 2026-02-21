@@ -127,7 +127,7 @@ export default function HomePage() {
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
                 <span className="block text-white">SentinelNexus</span>
                 <span className="block bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
                   Guard
@@ -197,7 +197,7 @@ export default function HomePage() {
               ].map((stat, idx) => (
                 <div key={idx} className="text-center group hover:scale-105 transition-transform">
                   <div className="text-4xl mb-2">{stat.icon}</div>
-                  <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
                     {stat.value}
                   </div>
                   <div className="text-slate-500 text-sm mt-1">{stat.label}</div>

@@ -243,7 +243,7 @@ export function RegisterForm() {
 
       {/* Email/Password Form */}
       <form onSubmit={handleRegister} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-white mb-2">Full Name</label>
             <input
@@ -280,7 +280,7 @@ export function RegisterForm() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-white mb-2">Password</label>
             <input

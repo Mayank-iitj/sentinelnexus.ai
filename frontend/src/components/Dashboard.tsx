@@ -79,7 +79,7 @@ function KpiCard({
       <div className="relative flex items-start justify-between">
         <div>
           <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">{label}</p>
-          <p className="text-3xl font-bold text-white">
+          <p className="text-2xl sm:text-3xl font-bold text-white">
             {typeof value === 'number' ? <AnimatedNumber value={value} /> : value}
           </p>
           {subtitle && <p className="text-xs text-slate-500 mt-1">{subtitle}</p>}
@@ -268,12 +268,12 @@ IP Address: 192.168.1.100 | IBAN: GB29NWBK60161331926819`,
   return (
     <div className="space-y-4">
       {/* Mode selector */}
-      <div className="flex gap-1 p-1 bg-slate-950/50 rounded-xl border border-slate-800">
+      <div className="flex flex-wrap gap-1 p-1 bg-slate-950/50 rounded-xl border border-slate-800">
         {(['code', 'prompt', 'pii'] as const).map((m) => (
           <button
             key={m}
             onClick={() => setMode(m)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all duration-200 ${mode === m
+            className={`flex-1 min-w-[80px] py-2.5 text-xs font-semibold rounded-lg transition-all duration-200 ${mode === m
               ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20'
               : 'text-slate-400 hover:text-white'
               }`}

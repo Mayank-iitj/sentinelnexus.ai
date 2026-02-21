@@ -82,7 +82,7 @@ export function CodeScanner() {
             <span className="text-xs font-normal text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">{findings.length} findings</span>
           </h3>
 
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 backdrop-blur-sm">
               <p className="text-red-400 text-sm font-medium uppercase tracking-wider">Critical</p>
               <p className="text-3xl font-bold text-white mt-1">{summary.critical}</p>
@@ -109,8 +109,8 @@ export function CodeScanner() {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`w-2 h-2 rounded-full ${f.severity === 'critical' ? 'bg-red-500' :
-                          f.severity === 'high' ? 'bg-orange-500' :
-                            f.severity === 'medium' ? 'bg-yellow-500' : 'bg-blue-500'
+                        f.severity === 'high' ? 'bg-orange-500' :
+                          f.severity === 'medium' ? 'bg-yellow-500' : 'bg-blue-500'
                         }`} />
                       <h4 className="font-semibold text-white">{f.title}</h4>
                     </div>
