@@ -184,25 +184,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Video Demo Section */}
-        <div id="demo" className="relative py-12 md:py-20">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/20 border border-slate-700/50 group">
-              <div className="absolute inset-0 bg-blue-500/5 mix-blend-overlay pointer-events-none" />
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-auto object-cover"
-              >
-                <source src="/demo.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent pointer-events-none" />
-            </div>
-          </div>
-        </div>
 
         {/* Stats Section */}
         <div className="relative border-y border-slate-800 bg-slate-900/50 backdrop-blur-xl">

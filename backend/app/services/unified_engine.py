@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import ast
 import asyncio
+import base64
 import hashlib
 import json
 import logging
@@ -1020,9 +1021,9 @@ class PresidioPIIEngine:
 
 class PromptInjectionScanner:
     PATTERNS: List[Tuple[re.Pattern, Severity, str, str]] = [
-        (re.compile(r"(?i)ignore\s+(all\s+)?(previous|prior|above|your)\s+(instructions?|rules?|constraints?|prompt)"),
+        (re.compile(r"(?i)ignore\s+(all\s+)?(previous|prior|above|your|system)?\s*(instructions?|rules?|constraints?|prompt|policies)"),
          Severity.CRITICAL, "ignore_instructions", "LLM01"),
-        (re.compile(r"(?i)disregard\s+(your\s+)?(previous|prior|system|all)\s+(instructions?|prompt|rules?)"),
+        (re.compile(r"(?i)disregard\s+(your\s+)?(previous|prior|system|all)?\s*(instructions?|prompt|rules?)"),
          Severity.CRITICAL, "disregard_instructions", "LLM01"),
         (re.compile(r"(?i)forget\s+(everything|all|prior|previous|your\s+instructions?)"),
          Severity.CRITICAL, "forget_instructions", "LLM01"),
@@ -1036,7 +1037,7 @@ class PromptInjectionScanner:
          Severity.CRITICAL, "dan_jailbreak", "LLM01"),
         (re.compile(r"jailbreak|jail\s*break", re.I),
          Severity.CRITICAL, "explicit_jailbreak", "LLM01"),
-        (re.compile(r"(?i)you\s+are\s+now\s+(free|unrestricted|unchained|liberated|uncensored|jailbroken)"),
+        (re.compile(r"(?i)(you|user)\s+are\s+(now\s+)?(in\s+)?(free|unrestricted|unchained|liberated|uncensored|jailbroken|god|admin)\s+(mode)?"),
          Severity.CRITICAL, "freedom_jailbreak", "LLM01"),
         (re.compile(r"(?i)pretend\s+(you\s+have\s+no|there\s+are\s+no)\s+(restrictions?|rules?|limits?|guidelines?)"),
          Severity.CRITICAL, "pretend_no_rules", "LLM01"),
@@ -1093,9 +1094,12 @@ class PromptInjectionScanner:
     )
 
     @classmethod
-    def scan(cls, text: str) -> Tuple[List[Finding], float]:
+    def scan(cls, text: str, depth: int = 0) -> Tuple[List[Finding], float]:
+        if depth > 2: return [], 0.0
         findings: List[Finding] = []
         seen: Set[str] = set()
+
+        # Regular pattern scan
         for pat, sev, ftype, ref in cls.PATTERNS:
             m = pat.search(text)
             if not m:
@@ -1124,6 +1128,36 @@ class PromptInjectionScanner:
                 confidence=0.9 if sev == Severity.CRITICAL else 0.8,
                 metadata={"ref": ref, "char_offset": m.start()},
             ))
+
+        # Base64 Obfuscation Detection
+        potential_b64_blocks = re.findall(r'(?:[A-Za-z0-9+/]{4,}\s*){2,}(?:[A-Za-z0-9+/]{2,4}==?|[A-Za-z0-9+/]{4})', text)
+        for block in potential_b64_blocks:
+            clean_b64 = re.sub(r'\s+', '', block)
+            try:
+                if len(clean_b64) < 12: continue
+                # Pad
+                missing_padding = len(clean_b64) % 4
+                if missing_padding: clean_b64 += '=' * (4 - missing_padding)
+                
+                decoded = base64.b64decode(clean_b64).decode('utf-8', errors='ignore')
+                if len(decoded) > 5:
+                    sub_f, _ = cls.scan(decoded, depth + 1)
+                    if sub_f:
+                        findings.append(Finding(
+                            id=hashlib.md5(f"b64:{clean_b64[:16]}".encode()).hexdigest()[:8],
+                            domain=RiskDomain.PROMPT_INJECTION, finding_type="obfuscated_injection",
+                            severity=Severity.CRITICAL,
+                            title="Base64 Obfuscated Injection",
+                            description="Highly malicious payload detected within Base64 encoded block.",
+                            location="embedded_base64", evidence=clean_b64[:30]+"...",
+                            remediation="Block obfuscated payloads. Decode and inspect all encoded inputs.",
+                            suggested_fix="Implement recursive decoding in prompt filter.",
+                            confidence=1.0, metadata={"decoded_content_risky": True}
+                        ))
+                        findings.extend(sub_f)
+            except Exception:
+                pass
+
         for km in cls.SENSITIVE_KW.finditer(text):
             kw = km.group(0).lower()
             if f"kw:{kw}" in seen:

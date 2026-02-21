@@ -1,5 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from app.services.unified_engine import CodeSecurityScanner
+from app.services.scanners.prompt_scanner import PromptInjectionScanner
 import json
 import logging
 from dataclasses import asdict, is_dataclass
@@ -45,11 +46,12 @@ async def websocket_scan(websocket: WebSocket):
             
             # Placeholder for other types
             elif scan_type == "prompt":
-                # Implement PromptScanner.scan_stream later if needed
-                pass
+                async for event in PromptInjectionScanner.scan_stream(content):
+                    await websocket.send_json(_to_serializable(event))
 
             elif scan_type == "monitor":
                 # Simulated Global Threat Feed for Dashboard "Wow" Factor
+                from datetime import timezone # Fix: timezone was missing in some imports
                 import random
                 import asyncio
                 
