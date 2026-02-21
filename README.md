@@ -404,7 +404,7 @@ Contributions welcome! Please follow:
 
 ## 📄 License
 
-MIT License - See LICENSE file
+Private
 
 ## 💬 Support
 
