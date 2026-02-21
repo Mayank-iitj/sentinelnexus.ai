@@ -146,6 +146,16 @@ Disallow: /
 User-agent: Google-Extended
 Disallow: /
 
+User-agent: PerplexityBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: YouBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
 # Block scrapers and bad actors
 User-agent: rogerbot
 Disallow: /
