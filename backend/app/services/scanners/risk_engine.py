@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from ..engine.modules.base_module import Finding
+from app.engine.modules.base_module import Finding
 
 class RiskEngine:
     @staticmethod

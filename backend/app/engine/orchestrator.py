@@ -2,7 +2,7 @@ import asyncio
 import importlib
 import pkgutil
 from typing import List, Dict, Any
-from .modules.base_module import BaseScannerModule, Finding
+from app.engine.modules.base_module import BaseScannerModule, Finding
 
 class EngineOrchestrator:
     def __init__(self):

@@ -1,8 +1,8 @@
 import asyncio
 from typing import Dict, Any
 from .celery_app import celery_app
-from ..engine.orchestrator import EngineOrchestrator
-from ..services.scanners.risk_engine import RiskEngine
+from app.engine.orchestrator import EngineOrchestrator
+from app.services.scanners.risk_engine import RiskEngine
 
 @celery_app.task(name="app.worker.tasks.run_vulnerability_scan")
 def run_vulnerability_scan(target_url: str, config: Dict[str, Any] = {}):
