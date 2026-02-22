@@ -6,8 +6,8 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line
 } from 'recharts'
 import { scanApi } from '@/lib/api'
-import { VulnerabilityExplorer } from './VulnerabilityExplorer'
-import { AttackGraph } from './AttackGraph'
+import { VulnerabilityExplorer } from '../VulnerabilityExplorer'
+import { AttackGraph } from '../AttackGraph'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Finding {
