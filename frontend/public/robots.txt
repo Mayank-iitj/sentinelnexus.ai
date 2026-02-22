@@ -15,6 +15,7 @@ Allow: /features/
 Allow: /pricing
 Allow: /docs
 Allow: /docs/
+Allow: /docs/api
 Allow: /blog
 Allow: /blog/
 Allow: /about
@@ -33,6 +34,9 @@ Disallow: /settings/
 Disallow: /admin/
 Disallow: /_next/
 Disallow: /private/
+
+# Documentation Priority Path
+Allow: /docs/*
 
 # Primary Sitemap
 Sitemap: https://sentinelnexus.mayankiitj.in/sitemap.xml

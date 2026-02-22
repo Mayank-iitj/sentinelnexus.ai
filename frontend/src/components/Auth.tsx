@@ -2,10 +2,9 @@
 
 import React, { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { authApi } from '@/lib/api'
-import { useAuthStore } from '@/store'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { Github, Mail, ShieldCheck } from 'lucide-react'
 
 function GoogleIcon() {
   return (
@@ -30,313 +29,144 @@ function GoogleIcon() {
   )
 }
 
-function GitHubIcon() {
+function MicrosoftIcon() {
   return (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+    <svg className="w-5 h-5" viewBox="0 0 23 23">
+      <path fill="#f3f3f3" d="M0 0h11v11H0z" />
+      <path fill="#f3f3f3" d="M12 0h11v11H12z" />
+      <path fill="#f3f3f3" d="M0 12h11v11H0z" />
+      <path fill="#f3f3f3" d="M12 12h11v11H12z" />
+      <path fill="#737373" d="M1 1h9v9H1z" />
+      <path fill="#737373" d="M13 1h9v9H13z" />
+      <path fill="#737373" d="M1 13h9v9H1z" />
+      <path fill="#737373" d="M13 13h9v9H13z" />
     </svg>
   )
 }
 
-function Divider() {
-  return (
-    <div className="relative my-6">
-      <div className="absolute inset-0 flex items-center">
-        <div className="w-full border-t border-slate-700"></div>
-      </div>
-      <div className="relative flex justify-center text-sm">
-        <span className="px-4 bg-slate-800 text-slate-400">or continue with email</span>
-      </div>
-    </div>
-  )
+interface SocialButtonProps {
+  provider: string
+  label: string
+  icon: React.ReactNode
+  color: string
 }
 
-export function LoginForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+function SocialSignInButton({ provider, label, icon, color }: SocialButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
-  const router = useRouter()
-  const { setUser, setToken } = useAuthStore()
 
-  const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true)
-    try {
-      await signIn('google', { callbackUrl: '/dashboard' })
-    } catch (error) {
-      toast.error('Google sign-in failed')
-      setIsGoogleLoading(false)
-    }
-  }
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSignIn = async () => {
     setIsLoading(true)
-
     try {
-      // Call FastAPI backend directly for token + user info
-      const res = await authApi.login(email, password)
-      const { access_token, refresh_token } = res.data
-
-      // Persist token
-      localStorage.setItem('access_token', access_token)
-      if (refresh_token) localStorage.setItem('refresh_token', refresh_token)
-
-      // Fetch user profile and cache it
-      const meRes = await authApi.getCurrentUser()
-      const userData = meRes.data
-      setUser(userData)
-      setToken(access_token)
-      localStorage.setItem('user_info', JSON.stringify(userData))
-
-      toast.success(`Welcome back, ${userData.full_name || userData.username}!`)
-      router.push('/dashboard')
-    } catch (error: any) {
-      // Fallback: try next-auth credentials provider
-      try {
-        const result = await signIn('credentials', { email, password, redirect: false })
-        if (result?.error) {
-          toast.error('Invalid email or password')
-        } else {
-          toast.success('Logged in successfully!')
-          router.push('/dashboard')
-        }
-      } catch {
-        toast.error(error.response?.data?.detail || 'Login failed')
-      }
-    } finally {
+      await signIn(provider, { callbackUrl: '/dashboard' })
+    } catch (error) {
+      toast.error(`${label} sign-in failed`)
       setIsLoading(false)
     }
   }
 
-
   return (
-    <div className="space-y-4">
-      {/* Social Sign-in Buttons */}
-      <button
-        onClick={handleGoogleSignIn}
-        disabled={isGoogleLoading}
-        className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-white disabled:opacity-50 text-slate-900 font-bold py-3.5 px-4 rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
-      >
-        <GoogleIcon />
-        {isGoogleLoading ? 'Decrypting...' : 'Continue with Google'}
-      </button>
+    <button
+      onClick={handleSignIn}
+      disabled={isLoading}
+      className={`w-full flex items-center justify-center gap-3 py-3.5 px-6 rounded-xl font-bold transition-all duration-300 group relative overflow-hidden ${color} disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98] border border-white/10`}
+    >
+      <div className="flex items-center gap-3 relative z-10">
+        {isLoading ? (
+          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        ) : (
+          <div className="group-hover:scale-110 transition-transform duration-300">
+            {icon}
+          </div>
+        )}
+        <span className="tracking-tight">{isLoading ? 'Authorizing...' : `Continue with ${label}`}</span>
+      </div>
+      <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+    </button>
+  )
+}
 
-      <Divider />
-
-      {/* Email/Password Form */}
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-white mb-2">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            placeholder="you@example.com"
-            required
-          />
+export function LoginForm() {
+  return (
+    <div className="space-y-4 py-4">
+      <div className="text-center mb-6">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/10 mb-4">
+          <ShieldCheck className="w-6 h-6 text-blue-400" />
         </div>
+        <h2 className="text-xl font-bold text-white mb-2">Secure Gateway</h2>
+        <p className="text-slate-400 text-sm">Please select an enterprise identity provider</p>
+      </div>
 
-        <div>
-          <label className="block text-sm font-medium text-white mb-2">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-slate-950/80 border border-slate-800 focus:border-blue-500/50 rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all font-mono"
-            placeholder="••••••••"
-            required
-          />
-        </div>
+      <SocialSignInButton
+        provider="google"
+        label="Google"
+        icon={<GoogleIcon />}
+        color="bg-[#1a1a1a] text-white hover:bg-[#222]"
+      />
 
-        <div className="flex items-center justify-between text-sm">
-          <label className="flex items-center gap-2 text-slate-400 cursor-pointer">
-            <input type="checkbox" className="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-blue-500" />
-            Remember me
-          </label>
-          <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors">
-            Forgot password?
-          </a>
-        </div>
+      <SocialSignInButton
+        provider="github"
+        label="GitHub"
+        icon={<Github className="w-5 h-5 text-white" />}
+        color="bg-[#24292e] text-white hover:bg-[#2f363d]"
+      />
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-[length:200%_auto] animate-gradient-x hover:scale-[1.02] disabled:opacity-50 text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] active:scale-[0.98]"
-        >
-          {isLoading ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              AUTHENTICATING...
-            </span>
-          ) : 'AUTHORIZE ACCESS'}
-        </button>
-      </form>
+      <SocialSignInButton
+        provider="azure-ad"
+        label="Microsoft"
+        icon={<MicrosoftIcon />}
+        color="bg-[#2f2f2f] text-white hover:bg-[#3f3f3f]"
+      />
+
+      <div className="mt-8 pt-6 border-t border-slate-800 text-center">
+        <p className="text-xs text-slate-500 max-w-[280px] mx-auto leading-relaxed">
+          By continuing, you agree to SentinelNexus'
+          <a href="#" className="text-blue-500 hover:underline mx-1">Terms of Service</a>
+          and
+          <a href="#" className="text-blue-500 hover:underline mx-1">Privacy Policy</a>.
+        </p>
+      </div>
     </div>
   )
 }
 
 export function RegisterForm() {
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [fullName, setFullName] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
-  const [agreeToTerms, setAgreeToTerms] = useState(false)
-  const router = useRouter()
-
-  const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true)
-    try {
-      await signIn('google', { callbackUrl: '/dashboard' })
-    } catch (error) {
-      toast.error('Google sign-up failed')
-      setIsGoogleLoading(false)
-    }
-  }
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match')
-      return
-    }
-
-    if (!agreeToTerms) {
-      toast.error('Please agree to the terms and conditions')
-      return
-    }
-
-    setIsLoading(true)
-
-    try {
-      await authApi.register(email, username, password, fullName)
-      toast.success('Account created! Please log in.')
-      router.push('/auth/login')
-    } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'Registration failed')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   return (
-    <div className="space-y-4">
-      {/* Social Sign-up Buttons */}
-      <button
-        onClick={handleGoogleSignIn}
-        disabled={isGoogleLoading}
-        className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 disabled:opacity-50 text-gray-800 font-medium py-3 px-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md"
-      >
-        <GoogleIcon />
-        {isGoogleLoading ? 'Connecting...' : 'Sign up with Google'}
-      </button>
-
-      <Divider />
-
-      {/* Email/Password Form */}
-      <form onSubmit={handleRegister} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-white mb-2">Full Name</label>
-            <input
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              placeholder="John Doe"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-white mb-2">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              placeholder="johndoe"
-              required
-            />
-          </div>
+    <div className="space-y-4 py-4">
+      <div className="text-center mb-6">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-500/10 mb-4">
+          <Mail className="w-6 h-6 text-cyan-400" />
         </div>
+        <h2 className="text-xl font-bold text-white mb-2">Create Intelligence Account</h2>
+        <p className="text-slate-400 text-sm">Join the platform using your existing account</p>
+      </div>
 
-        <div>
-          <label className="block text-sm font-medium text-white mb-2">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            placeholder="you@example.com"
-            required
-          />
-        </div>
+      <SocialSignInButton
+        provider="google"
+        label="Google"
+        icon={<GoogleIcon />}
+        color="bg-slate-100 text-slate-900 hover:bg-white"
+      />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-white mb-2">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              placeholder="••••••••"
-              required
-              minLength={8}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-white mb-2">Confirm</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-        </div>
+      <SocialSignInButton
+        provider="github"
+        label="GitHub"
+        icon={<Github className="w-5 h-5 text-slate-900" />}
+        color="bg-slate-100 text-slate-900 hover:bg-white"
+      />
 
-        <label className="flex items-start gap-3 text-sm text-slate-400 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={agreeToTerms}
-            onChange={(e) => setAgreeToTerms(e.target.checked)}
-            className="mt-1 rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-blue-500"
-          />
-          <span>
-            I agree to the{' '}
-            <a href="#" className="text-blue-400 hover:text-blue-300">Terms of Service</a>
-            {' '}and{' '}
-            <a href="#" className="text-blue-400 hover:text-blue-300">Privacy Policy</a>
-          </span>
-        </label>
+      <SocialSignInButton
+        provider="azure-ad"
+        label="Microsoft"
+        icon={<MicrosoftIcon />}
+        color="bg-slate-100 text-slate-900 hover:bg-white"
+      />
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 disabled:opacity-50 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-        >
-          {isLoading ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Creating account...
-            </span>
-          ) : 'Create account'}
-        </button>
-      </form>
+      <div className="mt-8 pt-6 border-t border-slate-800 text-center">
+        <p className="text-xs text-slate-500 max-w-[280px] mx-auto leading-relaxed">
+          SentinelNexus uses biometric-linked OAuth for identity verification.
+          Manual registration is strictly disabled for security compliance.
+        </p>
+      </div>
     </div>
   )
 }

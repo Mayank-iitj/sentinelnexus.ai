@@ -15,7 +15,7 @@ import io
 from app.worker.tasks import run_vulnerability_scan
 from app.schemas.scan import WebScanRequest
 
-router = APIRouter(prefix="/api/v1/scans", tags=["scans"])
+router = APIRouter(prefix="/scans", tags=["scans"])
 
 
 @router.post("/code", response_model=ScanResponse)

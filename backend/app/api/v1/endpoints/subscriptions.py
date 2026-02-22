@@ -12,7 +12,7 @@ settings = get_settings()
 if settings.STRIPE_API_KEY:
     stripe.api_key = settings.STRIPE_API_KEY
 
-router = APIRouter(prefix="/api/v1/subscriptions", tags=["subscriptions"])
+router = APIRouter(prefix="/subscriptions", tags=["subscriptions"])
 
 
 @router.get("/org/{org_id}", response_model=SubscriptionResponse)

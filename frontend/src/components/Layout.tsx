@@ -1,53 +1,23 @@
-'use client'
-
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useAuthStore } from '@/store'
-import { authApi } from '@/lib/api'
+import { useSession } from 'next-auth/react'
+import { ProfileDropdown } from './ProfileDropdown'
 
 export function Navbar() {
   const router = useRouter()
-  const { user, setUser, logout } = useAuthStore()
+  const { data: session, status } = useSession()
+  const user = session?.user
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-
-    // ── Hydrate auth store from localStorage on every mount ──
-    const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
-    if (token && !user) {
-      // Try to restore cached user first (fast)
-      const cached = localStorage.getItem('user_info')
-      if (cached) {
-        try { setUser(JSON.parse(cached)) } catch { }
-      }
-      // Then verify with the server in the background
-      authApi.getCurrentUser()
-        .then((res) => {
-          setUser(res.data)
-          localStorage.setItem('user_info', JSON.stringify(res.data))
-        })
-        .catch(() => {
-          // Token expired / invalid — clear everything
-          localStorage.removeItem('access_token')
-          localStorage.removeItem('refresh_token')
-          localStorage.removeItem('user_info')
-          setUser(null)
-        })
-    }
-
     const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const handleLogout = () => {
-    logout()
-    router.push('/')
-  }
 
   return (
     <nav
@@ -90,7 +60,9 @@ export function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            {user ? (
+            {status === 'loading' ? (
+              <div className="w-8 h-8 rounded-lg bg-slate-800 animate-pulse" />
+            ) : user ? (
               <>
                 {/* Notifications */}
                 <button className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
@@ -99,22 +71,8 @@ export function Navbar() {
                   </svg>
                 </button>
 
-                {/* User dropdown */}
-                <div className="flex items-center gap-3 pl-3 border-l border-slate-800">
-                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-sm font-semibold">
-                    {(user.full_name || user.username)?.[0]?.toUpperCase() || 'U'}
-                  </div>
-                  <div className="hidden sm:block text-right">
-                    <p className="text-sm font-medium text-white leading-tight">{user.full_name || user.username}</p>
-                    <p className="text-xs text-slate-500 truncate max-w-[140px]">{user.email}</p>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm rounded-lg transition-all duration-200"
-                  >
-                    Logout
-                  </button>
-                </div>
+                {/* Profile Dropdown */}
+                <ProfileDropdown />
               </>
             ) : (
               <>

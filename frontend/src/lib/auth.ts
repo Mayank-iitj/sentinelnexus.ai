@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import GitHubProvider from 'next-auth/providers/github'
+import AzureADProvider from 'next-auth/providers/azure-ad'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -8,46 +9,14 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
-    CredentialsProvider({
-      name: 'credentials',
-      credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null
-        }
-
-        try {
-          // Call your backend API to verify credentials
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
-          const response = await fetch(`${apiUrl}/api/v1/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({
-              username: credentials.email,
-              password: credentials.password,
-            }),
-          })
-
-          if (!response.ok) {
-            return null
-          }
-
-          const data = await response.json()
-          
-          return {
-            id: data.user?.id || credentials.email,
-            email: credentials.email,
-            name: data.user?.full_name || data.user?.username || credentials.email,
-            accessToken: data.access_token,
-          }
-        } catch (error) {
-          console.error('Auth error:', error)
-          return null
-        }
-      },
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID || '',
+      clientSecret: process.env.GITHUB_SECRET || '',
+    }),
+    AzureADProvider({
+      clientId: process.env.AZURE_AD_CLIENT_ID || '',
+      clientSecret: process.env.AZURE_AD_CLIENT_SECRET || '',
+      tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
     }),
   ],
   pages: {
@@ -59,11 +28,15 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       // Initial sign in
       if (account && user) {
-        if (account.provider === 'google') {
-          // For Google OAuth, sync with backend
+        const providers = ['google', 'github', 'azure-ad']
+
+        if (providers.includes(account.provider)) {
+          // Map provider to backend endpoint suffix
+          const apiSuffix = account.provider === 'azure-ad' ? 'microsoft' : account.provider
+
           try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
-            const response = await fetch(`${apiUrl}/api/v1/auth/oauth/google`, {
+            const response = await fetch(`${apiUrl}/api/v1/auth/oauth/${apiSuffix}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -73,30 +46,31 @@ export const authOptions: NextAuthOptions = {
                 provider_id: account.providerAccountId,
               }),
             })
-            
+
             if (response.ok) {
               const data = await response.json()
               token.accessToken = data.access_token
               token.userId = data.user?.id
             }
           } catch (error) {
-            console.error('OAuth sync error:', error)
+            console.error(`${account.provider} OAuth sync error:`, error)
           }
-        } else {
-          // For credentials, use the token from login
-          token.accessToken = (user as any).accessToken
         }
-        
+
         token.id = user.id
         token.email = user.email
         token.name = user.name
+        token.picture = user.image
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id as string
+        (session.user as any).id = token.userId as string
         (session.user as any).accessToken = token.accessToken as string
+        (session.user as any).email = token.email as string
+        (session.user as any).name = token.name as string
+        (session.user as any).image = token.picture as string
       }
       return session
     },
