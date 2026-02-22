@@ -13,9 +13,9 @@ class User(Base):
     username = Column(String(100), unique=True, nullable=False)
     full_name = Column(String(255))
     hashed_password = Column(String(255), nullable=False)
-    is_active = Column(Boolean, default=True)
-    is_verified = Column(Boolean, default=False)
-    role = Column(String(20), default="viewer")  # admin, viewer
+    is_active = Column(Boolean, default=True, server_default='1', nullable=False)
+    is_verified = Column(Boolean, default=False, server_default='0', nullable=False)
+    role = Column(String(20), default="viewer", server_default='viewer', nullable=False)  # admin, viewer
     organization_id = Column(String(36), ForeignKey("organizations.id"))
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())

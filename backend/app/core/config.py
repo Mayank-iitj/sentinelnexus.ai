@@ -54,8 +54,19 @@ class Settings(BaseSettings):
     SLACK_WEBHOOK_URL: Optional[str] = None
     
     # OAuth
-    GOOGLE_OAUTH_CLIENT_ID: Optional[str] = None
-    GOOGLE_OAUTH_CLIENT_SECRET: Optional[str] = None
+    GOOGLE_CLIENT_ID: Optional[str] = None
+    GOOGLE_CLIENT_SECRET: Optional[str] = None
+    
+    GITHUB_CLIENT_ID: Optional[str] = None
+    GITHUB_CLIENT_SECRET: Optional[str] = None
+    
+    AZURE_AD_CLIENT_ID: Optional[str] = None
+    AZURE_AD_CLIENT_SECRET: Optional[str] = None
+    AZURE_AD_TENANT_ID: str = "common"
+    
+    # NextAuth
+    NEXTAUTH_URL: str = "http://localhost:3000"
+    NEXTAUTH_SECRET: Optional[str] = None
     
     # Rate Limiting
     RATE_LIMIT_ENABLED: bool = True

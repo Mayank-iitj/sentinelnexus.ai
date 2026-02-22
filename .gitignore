@@ -93,3 +93,8 @@ en_core_web_md/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Temporary / Debug files
+debug_oauth_sync.py
+backend/tests/repro_issue.py
+backend/tests/unifiedengine.py
