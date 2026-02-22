@@ -7,6 +7,7 @@ from app.models.pii_scan import PIIScan
 from app.models.alert import Alert
 from app.models.audit_log import AuditLog
 from app.models.subscription import Subscription
+from app.models.api_key import ApiKey
 
 __all__ = [
     "User",
@@ -19,4 +20,5 @@ __all__ = [
     "Alert",
     "AuditLog",
     "Subscription",
+    "ApiKey",
 ]

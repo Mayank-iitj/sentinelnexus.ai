@@ -40,6 +40,17 @@ apiClient.interceptors.response.use(
 export const authApi = {
   getCurrentUser: () =>
     apiClient.get('/api/v1/auth/me'),
+  getUserActivity: (skip = 0, limit = 20) =>
+    apiClient.get(`/api/v1/auth/activity?skip=${skip}&limit=${limit}`),
+};
+
+export const apiKeyApi = {
+  listKeys: () =>
+    apiClient.get('/api/v1/api-keys/'),
+  createKey: (name: string, expiresAt?: string) =>
+    apiClient.post('/api/v1/api-keys/', { name, expires_at: expiresAt }),
+  deleteKey: (keyId: string) =>
+    apiClient.delete(`/api/v1/api-keys/${keyId}`),
 };
 
 export const scanApi = {

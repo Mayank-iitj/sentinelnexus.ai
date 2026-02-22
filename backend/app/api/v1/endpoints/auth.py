@@ -10,6 +10,10 @@ from app.core.security import create_access_token, create_refresh_token, verify_
 from datetime import timedelta
 import secrets
 
+from app.models.audit_log import AuditLog
+from app.api.v1.deps import get_current_active_user
+from app.models.user import User
+
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
@@ -154,3 +158,18 @@ def oauth_github(oauth_data: OAuthCommonRequest, db: Session = Depends(get_db)):
 def oauth_microsoft(oauth_data: OAuthCommonRequest, db: Session = Depends(get_db)):
     """Handle Microsoft OAuth sign-in/sign-up"""
     return sync_oauth_user(db, oauth_data.email, oauth_data.name, oauth_data.provider_id, "microsoft")
+
+
+@router.get("/activity", response_model=list)
+def get_user_activity(
+    skip: int = 0,
+    limit: int = 20,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_active_user)
+):
+    """Get recent activity logs for the current user"""
+    logs = db.query(AuditLog).filter(
+        AuditLog.user_id == current_user.id
+    ).order_by(AuditLog.created_at.desc()).offset(skip).limit(limit).all()
+    
+    return logs

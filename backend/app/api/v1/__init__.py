@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import auth, organizations, projects, scans, alerts, subscriptions, stream, verification
+from app.api.v1.endpoints import auth, organizations, projects, scans, alerts, subscriptions, stream, verification, api_keys
 
 api_router = APIRouter(prefix="/api/v1")
 
@@ -12,3 +12,4 @@ api_router.include_router(stream.router)
 api_router.include_router(alerts.router)
 api_router.include_router(subscriptions.router)
 api_router.include_router(verification.router)
+api_router.include_router(api_keys.router)
